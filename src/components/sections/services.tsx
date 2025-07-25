@@ -1,9 +1,13 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Briefcase, Bot, Code, BarChart3, ShieldCheck, CheckCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const serviceCategories = [
   {
-    icon: <Briefcase className="h-8 w-8 text-accent drop-shadow-glow-accent" />,
+    icon: <Briefcase className="h-16 w-16 text-primary drop-shadow-glow-primary" />,
     title: "Virtual Assistant Services",
     subtitle: "Helping entrepreneurs and teams stay organized, responsive, and efficient.",
     items: [
@@ -16,8 +20,8 @@ const serviceCategories = [
     ],
   },
   {
-    icon: <Bot className="h-8 w-8 text-accent drop-shadow-glow-accent" />,
-    title: "AI Tools & Automation Services",
+    icon: <Bot className="h-16 w-16 text-primary drop-shadow-glow-primary" />,
+    title: "AI Tools & Automation",
     subtitle: "Solving repetitive tasks with smart, AI-powered workflows.",
     items: [
       "AI Workflow Building with n8n, Contentful, Notion",
@@ -29,8 +33,8 @@ const serviceCategories = [
     ],
   },
   {
-    icon: <Code className="h-8 w-8 text-accent drop-shadow-glow-accent" />,
-    title: "Web Development Services",
+    icon: <Code className="h-16 w-16 text-primary drop-shadow-glow-primary" />,
+    title: "Web Development",
     subtitle: "From MVPs to scalable systems — fast, functional, and user-focused.",
     items: [
       "Front-End Development (React, Next.js, TypeScript)",
@@ -42,7 +46,7 @@ const serviceCategories = [
     ],
   },
   {
-    icon: <BarChart3 className="h-8 w-8 text-accent drop-shadow-glow-accent" />,
+    icon: <BarChart3 className="h-16 w-16 text-primary drop-shadow-glow-primary" />,
     title: "Data Science Foundations",
     subtitle: "Exploring data to unlock insights and support decisions.",
     items: [
@@ -54,7 +58,7 @@ const serviceCategories = [
     ],
   },
   {
-    icon: <ShieldCheck className="h-8 w-8 text-accent drop-shadow-glow-accent" />,
+    icon: <ShieldCheck className="h-16 w-16 text-primary drop-shadow-glow-primary" />,
     title: "Cybersecurity Foundations",
     subtitle: "Building awareness around digital safety and ethical hacking.",
     items: [
@@ -69,6 +73,12 @@ const serviceCategories = [
 ];
 
 export default function Services() {
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+
+  const handleCardClick = (index: number) => {
+    setFlippedCard(flippedCard === index ? null : index);
+  };
+
   return (
     <section id="services" className="bg-background/80 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -80,32 +90,42 @@ export default function Services() {
             I combine digital organization, AI fluency, and development skills to deliver solutions that matter.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-4xl">
-          <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
-            {serviceCategories.map((category, index) => (
-              <AccordionItem key={category.title} value={`item-${index}`} className="mb-4 rounded-lg border border-border/70 bg-card/50 px-6 shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10">
-                <AccordionTrigger className="py-6 text-left hover:no-underline">
-                  <div className="flex items-center gap-4">
-                    {category.icon}
-                    <div className="flex flex-col">
-                        <h3 className="font-headline text-xl text-primary">{category.title}</h3>
-                        <p className="text-sm text-foreground/70 mt-1">{category.subtitle}</p>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-6">
-                  <ul className="ml-4 list-none space-y-2">
+        <div className="mx-auto mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 [perspective:1000px]">
+          {serviceCategories.map((category, index) => (
+             <div
+              key={index}
+              className="relative h-96 w-full cursor-pointer"
+              onClick={() => handleCardClick(index)}
+            >
+              <Card
+                className={cn(
+                  "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-transform duration-700 [transform-style:preserve-3d]",
+                  flippedCard === index && "[transform:rotateY(180deg)]"
+                )}
+              >
+                {/* Front of the card */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center [backface-visibility:hidden]">
+                  {category.icon}
+                  <h3 className="mt-4 font-headline text-2xl font-bold text-primary">{category.title}</h3>
+                   <p className="mt-auto text-xs text-foreground/60 w-full">Click to see details</p>
+                </div>
+
+                {/* Back of the card */}
+                <CardContent className="absolute inset-0 flex flex-col justify-center rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                   <h3 className="font-headline text-xl font-bold text-primary text-center mb-2">{category.title}</h3>
+                   <p className="text-sm text-foreground/70 text-center mb-4">{category.subtitle}</p>
+                   <ul className="space-y-2 text-left">
                     {category.items.map((item) => (
                       <li key={item} className="flex items-start">
-                        <CheckCircle className="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-accent" />
-                        <span className="text-foreground/80">{item}</span>
+                        <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-accent" />
+                        <span className="text-sm text-foreground/80">{item}</span>
                       </li>
                     ))}
                   </ul>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
     </section>
