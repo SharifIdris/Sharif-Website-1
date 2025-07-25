@@ -31,7 +31,7 @@ const formSchema = z.object({
 });
 
 // IMPORTANT: Replace this with your own form submission endpoint from a service like Formspree or Web3Forms.
-const FORM_ENDPOINT = "https://formspree.io/f/your_unique_id"; 
+const FORM_ENDPOINT = "https://formspree.io/f/mzzvravr"; 
 
 export function ContactForm() {
   const [isLoading, setIsLoading] = useState(false);
