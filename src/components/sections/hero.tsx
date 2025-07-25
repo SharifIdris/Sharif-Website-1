@@ -1,6 +1,9 @@
+"use client";
+
 import { LinkedInConnect } from '@/components/linkedin-connect';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Download } from 'lucide-react';
+import { TypeAnimation } from 'react-type-animation';
 
 export default function Hero() {
     const bio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.`;
@@ -38,6 +41,24 @@ Let’s connect if you're hiring, collaborating, or passionate about AI, cyberse
           <h1 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-6xl drop-shadow-glow-primary">
             Angole Sharif Abubakar
           </h1>
+          <div className="mt-4 text-2xl font-semibold text-foreground/90 sm:text-3xl h-10 sm:h-auto">
+            <TypeAnimation
+              sequence={[
+                'Certified Virtual Assistant',
+                2000,
+                'AI Tools Expert',
+                2000,
+                'Data Science Enthusiast',
+                2000,
+                'Aspiring Cybersecurity Professional',
+                2000,
+              ]}
+              wrapper="span"
+              speed={50}
+              repeat={Infinity}
+              cursor={true}
+            />
+          </div>
           <p className="mt-6 text-lg leading-8 text-foreground/80">
             {bio}
           </p>
