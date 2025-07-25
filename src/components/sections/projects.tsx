@@ -95,7 +95,7 @@ const ProjectCard = ({ project }: { project: typeof projectCategories[0]['projec
 
   return (
      <div
-      className="relative h-80 w-full cursor-pointer group [perspective:1000px]"
+      className="relative h-64 w-full cursor-pointer group [perspective:1000px]"
       onClick={() => setIsFlipped(!isFlipped)}
     >
         <Card
@@ -115,37 +115,37 @@ const ProjectCard = ({ project }: { project: typeof projectCategories[0]['projec
                     className="h-full w-full rounded-lg object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-lg" />
-                <div className="absolute bottom-0 left-0 p-6">
-                    <CardTitle className="font-headline text-xl text-white drop-shadow-glow-primary">{project.title}</CardTitle>
+                <div className="absolute bottom-0 left-0 p-4">
+                    <CardTitle className="font-headline text-lg text-white drop-shadow-glow-primary">{project.title}</CardTitle>
                 </div>
-                 <div className="absolute bottom-6 right-6">
+                 <div className="absolute bottom-4 right-4">
                     <p className="text-xs text-white/80">Click for details</p>
                 </div>
             </div>
 
             {/* Back of the card */}
-            <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                <CardHeader className="p-4">
-                    <CardTitle className="font-headline text-xl text-primary drop-shadow-glow-primary">{project.title}</CardTitle>
-                    <CardDescription className="pt-2 text-foreground/80">{project.description}</CardDescription>
+            <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                <CardHeader className="p-2">
+                    <CardTitle className="font-headline text-lg text-primary drop-shadow-glow-primary">{project.title}</CardTitle>
+                    <CardDescription className="pt-1 text-xs text-foreground/80">{project.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow p-4">
-                     <div className="flex flex-wrap gap-2">
+                <CardContent className="flex-grow p-2">
+                     <div className="flex flex-wrap gap-1">
                         {project.techStack.map((tech) => (
-                            <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">{tech}</Badge>
+                            <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary text-xs">{tech}</Badge>
                         ))}
                     </div>
                 </CardContent>
-                <CardFooter className="p-4">
-                    <div className="flex gap-4">
-                    <Button variant="outline" asChild onClick={(e) => e.stopPropagation()}>
+                <CardFooter className="p-2">
+                    <div className="flex gap-2">
+                    <Button variant="outline" size="sm" asChild onClick={(e) => e.stopPropagation()}>
                         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
+                        <ExternalLink className="mr-1 h-3 w-3" /> Live
                         </a>
                     </Button>
-                    <Button variant="outline" asChild onClick={(e) => e.stopPropagation()}>
+                    <Button variant="outline" size="sm" asChild onClick={(e) => e.stopPropagation()}>
                         <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" /> GitHub
+                        <Github className="mr-1 h-3 w-3" /> GitHub
                         </a>
                     </Button>
                     </div>
@@ -168,25 +168,27 @@ export default function Projects() {
             Exploring ideas and building functional solutions across different domains.
           </p>
         </div>
-        <div className="mx-auto mt-16 w-full max-w-6xl space-y-20">
+        <div className="mx-auto mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:max-w-none">
             {projectCategories.map((category) => (
-              <div key={category.name}>
-                <div className="flex items-center gap-4 mb-8">
+              <Card key={category.name} className="flex flex-col transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
+                <CardHeader className="flex-row items-center gap-4 p-6">
                   {category.icon}
-                  <h3 className="font-headline text-2xl font-bold text-primary drop-shadow-glow-primary">{category.name}</h3>
-                </div>
-                {category.projects.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {category.projects.map((project) => (
-                      <ProjectCard key={project.title} project={project} />
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-center text-foreground/70">
-                    Projects in this category are coming soon. Stay tuned!
-                  </p>
-                )}
-              </div>
+                  <CardTitle className="font-headline text-2xl text-primary drop-shadow-glow-primary">{category.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow p-6 pt-0">
+                  {category.projects.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      {category.projects.map((project) => (
+                        <ProjectCard key={project.title} project={project} />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-center text-foreground/70">
+                      Projects in this category are coming soon. Stay tuned!
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
             ))}
         </div>
       </div>
