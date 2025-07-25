@@ -133,19 +133,21 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading} size="lg" className="w-full sm:w-auto">
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Sending...
-            </>
-          ) : (
-            <>
-              Send Message
-              <Send className="ml-2 h-5 w-5" />
-            </>
-          )}
-        </Button>
+        <div className="text-center">
+            <Button type="submit" disabled={isLoading} size="lg" className="w-full sm:w-auto">
+            {isLoading ? (
+                <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Sending...
+                </>
+            ) : (
+                <>
+                Send Message
+                <Send className="ml-2 h-5 w-5" />
+                </>
+            )}
+            </Button>
+        </div>
       </form>
     </Form>
   );
