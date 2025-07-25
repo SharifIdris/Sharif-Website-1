@@ -30,6 +30,9 @@ const formSchema = z.object({
   }),
 });
 
+// IMPORTANT: Replace this with your own form submission endpoint from a service like Formspree or Web3Forms.
+const FORM_ENDPOINT = "https://formspree.io/f/your_unique_id"; 
+
 export function ContactForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -46,10 +49,23 @@ export function ContactForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      // Here you would typically send the form data to a backend service
-      // For now, we'll just simulate a successful submission
-      console.log("Form submitted:", values);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+      if (FORM_ENDPOINT.includes("your_unique_id")) {
+        // This is a fallback for demonstration if the endpoint is not replaced.
+        console.log("Form submitted (simulation):", values);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } else {
+        const response = await fetch(FORM_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+        });
+
+        if (!response.ok) {
+            throw new Error("Form submission failed.");
+        }
+      }
       
       toast({
         title: "Message Sent!",
