@@ -12,7 +12,7 @@ import {
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Bot, Briefcase, ShieldCheck } from "lucide-react";
+import { ExternalLink, Github, Bot, Briefcase, ShieldCheck, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const projectCategories = [
@@ -55,10 +55,44 @@ const projectCategories = [
       },
     ]
   },
+  {
+    name: "Data Science Projects",
+    icon: <BarChart3 className="h-6 w-6 text-primary" />,
+    projects: [
+       {
+        title: "Sentiment Analysis Dashboard",
+        description: "A dashboard that visualizes customer feedback sentiment from multiple sources. Helps businesses quickly gauge public opinion and identify areas for improvement.",
+        techStack: ["Python", "Flask", "Plotly", "Pandas", "NLTK"],
+        liveUrl: "#",
+        githubUrl: "#",
+        imageUrl: "https://placehold.co/600x400.png",
+        imageHint: "data dashboard",
+      },
+       {
+        title: "Sales Forecasting Model",
+        description: "A machine learning model that predicts future sales based on historical data, seasonality, and marketing spend. Built to help optimize inventory and budget planning.",
+        techStack: ["Jupyter", "Scikit-learn", "TensorFlow", "Matplotlib"],
+        liveUrl: "#",
+        githubUrl: "#",
+        imageUrl: "https://placehold.co/600x400.png",
+        imageHint: "sales chart",
+      },
+    ]
+  },
    {
     name: "Cybersecurity Projects",
     icon: <ShieldCheck className="h-6 w-6 text-primary" />,
-    projects: []
+    projects: [
+        {
+        title: "Network Vulnerability Scanner",
+        description: "A command-line tool that scans a local network for open ports and known vulnerabilities. Developed to help administrators identify and patch security weaknesses.",
+        techStack: ["Python", "Nmap", "Socket"],
+        liveUrl: "#",
+        githubUrl: "#",
+        imageUrl: "https://placehold.co/600x400.png",
+        imageHint: "network security",
+      },
+    ]
   },
 ];
 
@@ -72,7 +106,7 @@ const ProjectCard = ({ project }: { project: typeof projectCategories[0]['projec
     >
         <Card
             className={cn(
-            "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d] hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20",
+            "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d] group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20",
             isFlipped && "[transform:rotateY(180deg)]"
             )}
         >
