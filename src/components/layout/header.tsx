@@ -55,7 +55,7 @@ export default function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <CodeXml className="h-6 w-6 text-primary drop-shadow-glow-primary" />
-          <span className="font-headline text-xl font-bold text-primary">
+          <span className="font-headline text-xl font-bold text-primary drop-shadow-glow-primary">
             Sharif's Digital Hub
           </span>
         </Link>
@@ -73,7 +73,7 @@ export default function Header() {
               <nav className="flex flex-col items-start gap-4 p-4">
                  <Link href="/" onClick={() => setIsSheetOpen(false)} className="flex items-center gap-2 mb-4">
                     <CodeXml className="h-6 w-6 text-primary drop-shadow-glow-primary" />
-                    <span className="font-headline text-xl font-bold text-primary">
+                    <span className="font-headline text-xl font-bold text-primary drop-shadow-glow-primary">
                         Sharif's Digital Hub
                     </span>
                  </Link>

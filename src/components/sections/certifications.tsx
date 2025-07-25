@@ -10,25 +10,25 @@ const certifications = [
   {
     issuer: "ALX Africa",
     name: "Cybersecurity",
-    icon: <ShieldCheck className="h-12 w-12 text-primary" />,
+    icon: <ShieldCheck className="h-12 w-12 text-primary drop-shadow-glow-primary" />,
     description: "Completed an intensive program covering network security, ethical hacking, and threat analysis to build a strong foundation in protecting digital assets.",
   },
   {
     issuer: "ALX Africa",
     name: "Data Science",
-    icon: <DatabaseZap className="h-12 w-12 text-primary" />,
+    icon: <DatabaseZap className="h-12 w-12 text-primary drop-shadow-glow-primary" />,
     description: "Gained practical experience in data analysis, machine learning, and visualization techniques to extract insights and drive data-informed decisions.",
   },
   {
     issuer: "CISCO",
     name: "Ethical Hacking",
-    icon: <ShieldCheck className="h-12 w-12 text-primary" />,
+    icon: <ShieldCheck className="h-12 w-12 text-primary drop-shadow-glow-primary" />,
     description: "Learned to identify and exploit vulnerabilities in a controlled environment, mastering the tools and methodologies used to secure modern networks.",
   },
   {
     issuer: "Virtual Assistant",
     name: "Certified Expert",
-    icon: <Award className="h-12 w-12 text-primary" />,
+    icon: <Award className="h-12 w-12 text-primary drop-shadow-glow-primary" />,
     description: "Mastered advanced skills in administrative support, client management, and automation to provide exceptional virtual assistance and streamline business operations.",
   },
 ];

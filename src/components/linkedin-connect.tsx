@@ -96,7 +96,7 @@ export function LinkedInConnect({ children, websiteContent }: LinkedInConnectPro
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle className="font-headline text-primary">Personalized Intro Generator</DialogTitle>
+          <DialogTitle className="font-headline text-primary drop-shadow-glow-primary">Personalized Intro Generator</DialogTitle>
           <DialogDescription>
             Generate a custom LinkedIn connection request message based on your profile.
           </DialogDescription>
