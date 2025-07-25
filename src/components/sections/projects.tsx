@@ -1,18 +1,23 @@
+
+"use client";
+
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const projects = [
   {
     title: "AI-Powered Task Manager",
     description: "A smart task management application that uses natural language processing to categorize and prioritize tasks automatically. Built to streamline productivity for small teams.",
-    techStack: ["Next.js", "TypeScript", "Firebase", "ChatGPT API", "Tailwind CSS"],
+    techStack: ["Next.js", "TypeScript", "Firebase", "Genkit", "Tailwind CSS"],
     liveUrl: "#",
     githubUrl: "#",
   },
   {
-    title: "Automated Client Onboarding System",
+    title: "Automated Client Onboarding",
     description: "An internal tool designed to automate the client onboarding process, from initial contact to project setup. Reduces manual data entry and ensures a smooth start for every client.",
     techStack: ["React", "Node.js", "Supabase", "Trello API", "SendGrid"],
     liveUrl: "#",
@@ -28,46 +33,84 @@ const projects = [
 ];
 
 export default function Projects() {
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+
+  const handleCardClick = (index: number) => {
+    setFlippedCard(flippedCard === index ? null : index);
+  };
+
   return (
     <section id="projects" className="py-24 sm:py-32">
-       <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl drop-shadow-glow-primary">
             MVP Project Showcase
           </h2>
           <p className="mt-4 text-lg leading-8 text-foreground/70">
-            Exploring ideas and building functional solutions. Here are some of my recent projects.
+            Exploring ideas and building functional solutions. Click a card for details.
           </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-          {projects.map((project) => (
-            <Card key={project.title} className="flex flex-col transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
-              <CardHeader>
-                <CardTitle className="font-headline text-xl text-primary">{project.title}</CardTitle>
-                <CardDescription className="pt-2 text-foreground/80">{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="flex flex-wrap gap-2">
-                  {project.techStack.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">{tech}</Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter>
-                <div className="flex gap-4">
-                  <Button variant="outline" asChild>
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                    </a>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" /> GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardFooter>
-            </Card>
+        <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3 [perspective:1000px]">
+          {projects.map((project, index) => (
+             <div
+              key={index}
+              className="relative h-96 w-full cursor-pointer"
+              onClick={() => handleCardClick(index)}
+            >
+                <Card
+                    className={cn(
+                    "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-transform duration-700 [transform-style:preserve-3d]",
+                    flippedCard === index && "[transform:rotateY(180deg)]"
+                    )}
+                >
+                    {/* Front of the card */}
+                    <div className="absolute inset-0 flex flex-col p-6 text-center [backface-visibility:hidden]">
+                        <CardHeader className="flex-shrink-0">
+                            <CardTitle className="font-headline text-xl text-primary">{project.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow flex flex-col justify-center items-center">
+                            <p className="text-foreground/80 text-sm mb-4">{project.description.substring(0, 100)}...</p>
+                            <div className="flex flex-wrap gap-2 justify-center">
+                            {project.techStack.map((tech) => (
+                                <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">{tech}</Badge>
+                            ))}
+                            </div>
+                        </CardContent>
+                         <CardFooter className="mt-auto">
+                            <p className="text-xs text-foreground/60 w-full">Click to see more</p>
+                        </CardFooter>
+                    </div>
+
+                    {/* Back of the card */}
+                    <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                        <CardHeader>
+                            <CardTitle className="font-headline text-xl text-primary">{project.title}</CardTitle>
+                            <CardDescription className="pt-2 text-foreground/80">{project.description}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                             <div className="flex flex-wrap gap-2">
+                                {project.techStack.map((tech) => (
+                                    <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">{tech}</Badge>
+                                ))}
+                            </div>
+                        </CardContent>
+                        <CardFooter>
+                            <div className="flex gap-4">
+                            <Button variant="outline" asChild onClick={(e) => e.stopPropagation()}>
+                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
+                                </a>
+                            </Button>
+                            <Button variant="outline" asChild onClick={(e) => e.stopPropagation()}>
+                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Github className="mr-2 h-4 w-4" /> GitHub
+                                </a>
+                            </Button>
+                            </div>
+                        </CardFooter>
+                    </div>
+                </Card>
+            </div>
           ))}
         </div>
       </div>
