@@ -27,8 +27,8 @@ export default function Footer() {
                    <ContactForm />
                 </div>
             </div>
-             <div className="flex flex-col items-center justify-between gap-8 rounded-lg border border-border/50 bg-card/50 p-8 md:items-start">
-                <div className="text-center md:text-left">
+             <div className="flex flex-col items-center justify-center gap-8 rounded-lg border border-border/50 bg-card/50 p-8 text-center">
+                <div>
                     <h4 className="font-headline text-2xl font-bold text-primary drop-shadow-glow-primary">
                     Connect on Socials
                     </h4>
