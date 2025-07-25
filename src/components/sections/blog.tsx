@@ -3,9 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { blogPosts } from "@/content/blog-posts";
+import { getBlogPosts } from "@/lib/contentful/client";
+import { BlogPost } from "@/content/blog-posts";
 
-export default function Blog() {
+export default async function Blog() {
+  const blogPosts: BlogPost[] = await getBlogPosts();
+
   return (
     <section id="blog" className="py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
