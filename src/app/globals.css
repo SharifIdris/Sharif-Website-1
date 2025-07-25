@@ -44,24 +44,24 @@ body {
   }
   .dark {
     --background: 0 0% 7%; /* #121212 */
-    --foreground: 205 90% 75%; /* Neon light blue for text */
+    --foreground: 180 90% 75%; /* Neon cyan for text */
     --card: 0 0% 10%;
-    --card-foreground: 205 90% 75%;
+    --card-foreground: 180 90% 75%;
     --popover: 0 0% 7%;
-    --popover-foreground: 205 90% 75%;
-    --primary: 205 100% 50%; /* Bright Neon Blue for headings/highlights */
+    --popover-foreground: 180 90% 75%;
+    --primary: 180 100% 50%; /* Bright Neon Cyan for headings/highlights */
     --primary-foreground: 0 0% 7%; /* Dark for text on buttons */
     --secondary: 0 0% 12%;
-    --secondary-foreground: 205 90% 75%;
+    --secondary-foreground: 180 90% 75%;
     --muted: 0 0% 12%;
-    --muted-foreground: 205 90% 60%;
-    --accent: 276 90% 80%; /* #D09CFA */
+    --muted-foreground: 180 90% 60%;
+    --accent: 276 90% 80%; /* #D09CFA - Keeping a contrast accent */
     --accent-foreground: 0 0% 7%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 205 53% 20%;
-    --input: 205 53% 15%;
-    --ring: 205 100% 50%;
+    --border: 180 53% 20%;
+    --input: 180 53% 15%;
+    --ring: 180 100% 50%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
