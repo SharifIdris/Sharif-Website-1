@@ -5,7 +5,8 @@ let client: ContentfulClientApi<any> | null = null;
 export function getContentfulClient() {
   if (!client) {
     if (!process.env.CONTENTFUL_SPACE_ID || !process.env.CONTENTFUL_ACCESS_TOKEN) {
-      throw new Error("Contentful credentials are not defined in environment variables.");
+      // Return null instead of throwing an error if credentials are not set.
+      return null;
     }
     client = createClient({
       space: process.env.CONTENTFUL_SPACE_ID,
@@ -17,6 +18,11 @@ export function getContentfulClient() {
 
 export async function getBlogPosts() {
     const client = getContentfulClient();
+    // If the client is null (because of missing credentials), return an empty array.
+    if (!client) {
+        console.warn("Contentful credentials are not set. Returning empty array for blog posts.");
+        return [];
+    }
     try {
         const entries = await client.getEntries({ content_type: 'blogPost' });
         
