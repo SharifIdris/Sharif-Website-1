@@ -61,12 +61,12 @@ export default function Projects() {
           {projects.map((project, index) => (
              <div
               key={index}
-              className="relative h-96 w-full cursor-pointer"
+              className="relative h-96 w-full cursor-pointer group"
               onClick={() => handleCardClick(index)}
             >
                 <Card
                     className={cn(
-                    "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-transform duration-700 [transform-style:preserve-3d]",
+                    "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d] group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20",
                     flippedCard === index && "[transform:rotateY(180deg)]"
                     )}
                 >
