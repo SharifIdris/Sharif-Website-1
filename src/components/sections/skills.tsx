@@ -63,7 +63,7 @@ export default function Skills() {
         </div>
         <div className="mx-auto mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-none">
           {skillCategories.map((category) => (
-            <Card key={category.title} className="transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+            <Card key={category.title} className="transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
               <CardHeader className="flex-row items-center gap-4">
                 {category.icon}
                 <CardTitle className="font-headline text-xl text-primary">{category.title}</CardTitle>

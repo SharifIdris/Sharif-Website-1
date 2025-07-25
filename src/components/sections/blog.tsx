@@ -45,7 +45,7 @@ export default function Blog() {
         </div>
         <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <Card key={post.title} className="flex flex-col transform-gpu overflow-hidden border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+            <Card key={post.title} className="flex flex-col transform-gpu overflow-hidden border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
               <CardHeader className="p-0">
                  <Image 
                     src={post.imageUrl} 
