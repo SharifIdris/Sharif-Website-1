@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,8 @@ const projects = [
     techStack: ["Next.js", "TypeScript", "Firebase", "Genkit", "Tailwind CSS"],
     liveUrl: "#",
     githubUrl: "#",
+    imageUrl: "https://placehold.co/600x400.png",
+    imageHint: "task manager",
   },
   {
     title: "Automated Client Onboarding",
@@ -22,6 +25,8 @@ const projects = [
     techStack: ["React", "Node.js", "Supabase", "Trello API", "SendGrid"],
     liveUrl: "#",
     githubUrl: "#",
+    imageUrl: "https://placehold.co/600x400.png",
+    imageHint: "client onboarding",
   },
   {
     title: "Cybersecurity News Aggregator",
@@ -29,6 +34,8 @@ const projects = [
     techStack: ["Next.js", "Contentful", "GraphQL", "Vercel"],
     liveUrl: "#",
     githubUrl: "#",
+    imageUrl: "https://placehold.co/600x400.png",
+    imageHint: "cybersecurity news",
   },
 ];
 
@@ -64,21 +71,22 @@ export default function Projects() {
                     )}
                 >
                     {/* Front of the card */}
-                    <div className="absolute inset-0 flex flex-col p-6 text-center [backface-visibility:hidden]">
-                        <CardHeader className="flex-shrink-0">
-                            <CardTitle className="font-headline text-xl text-primary">{project.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex-grow flex flex-col justify-center items-center">
-                            <p className="text-foreground/80 text-sm mb-4">{project.description.substring(0, 100)}...</p>
-                            <div className="flex flex-wrap gap-2 justify-center">
-                            {project.techStack.map((tech) => (
-                                <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">{tech}</Badge>
-                            ))}
-                            </div>
-                        </CardContent>
-                         <CardFooter className="mt-auto">
-                            <p className="text-xs text-foreground/60 w-full">Click to see more</p>
-                        </CardFooter>
+                    <div className="absolute inset-0 [backface-visibility:hidden]">
+                        <Image 
+                            src={project.imageUrl} 
+                            alt={project.title}
+                            data-ai-hint={project.imageHint}
+                            width={600}
+                            height={400}
+                            className="h-full w-full rounded-lg object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-lg" />
+                        <div className="absolute bottom-0 left-0 p-6">
+                            <CardTitle className="font-headline text-xl text-white">{project.title}</CardTitle>
+                        </div>
+                         <div className="absolute bottom-6 right-6">
+                            <p className="text-xs text-white/80">Click to see more</p>
+                        </div>
                     </div>
 
                     {/* Back of the card */}
