@@ -26,7 +26,7 @@ const certifications = [
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="bg-background/80 py-24 sm:py-32">
+    <section id="certifications" className="bg-background/80 py-24 sm:py-32 [perspective:1000px]">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl drop-shadow-glow-primary">
@@ -36,12 +36,19 @@ export default function Certifications() {
             Committed to advancing my technical knowledge and staying at the forefront of technology.
           </p>
         </div>
-        <div className="mt-16 flex flex-wrap justify-center gap-4">
+        <div className="mt-16 flex flex-wrap justify-center gap-6">
           {certifications.map((cert) => (
-            <Badge key={`${cert.issuer}-${cert.name}`} variant="outline" className="transform-gpu cursor-default border-accent/50 bg-accent/10 px-4 py-2 text-base text-accent transition-all hover:bg-accent/20 hover:shadow-lg hover:shadow-accent/10">
-              {cert.icon}
-              <span className="font-medium">{cert.issuer}:</span>&nbsp;{cert.name}
-            </Badge>
+             <div key={`${cert.issuer}-${cert.name}`} className="group relative">
+                <Badge className="transform-gpu cursor-default border-accent/50 bg-accent/10 px-4 py-2 text-base text-accent transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                    <div className="flex items-center justify-center [backface-visibility:hidden]">
+                        {cert.icon}
+                        <span className="font-medium">{cert.issuer}:</span>&nbsp;{cert.name}
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                         <span className="font-bold text-lg">Certified</span>
+                    </div>
+                </Badge>
+            </div>
           ))}
         </div>
       </div>
