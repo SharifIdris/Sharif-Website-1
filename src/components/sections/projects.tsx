@@ -3,12 +3,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +12,7 @@ import { cn } from "@/lib/utils";
 const projectCategories = [
   {
     name: "AI & Development",
-    icon: <Bot className="h-6 w-6 text-primary" />,
+    icon: <Bot className="h-8 w-8 text-primary" />,
     projects: [
       {
         title: "AI-Powered Task Manager",
@@ -42,7 +36,7 @@ const projectCategories = [
   },
   {
     name: "Virtual Assistant Projects",
-    icon: <Briefcase className="h-6 w-6 text-primary" />,
+    icon: <Briefcase className="h-8 w-8 text-primary" />,
     projects: [
       {
         title: "Automated Client Onboarding",
@@ -57,7 +51,7 @@ const projectCategories = [
   },
   {
     name: "Data Science Projects",
-    icon: <BarChart3 className="h-6 w-6 text-primary" />,
+    icon: <BarChart3 className="h-8 w-8 text-primary" />,
     projects: [
        {
         title: "Sentiment Analysis Dashboard",
@@ -81,7 +75,7 @@ const projectCategories = [
   },
    {
     name: "Cybersecurity Projects",
-    icon: <ShieldCheck className="h-6 w-6 text-primary" />,
+    icon: <ShieldCheck className="h-8 w-8 text-primary" />,
     projects: [
         {
         title: "Network Vulnerability Scanner",
@@ -174,32 +168,26 @@ export default function Projects() {
             Exploring ideas and building functional solutions across different domains.
           </p>
         </div>
-        <div className="mx-auto mt-16 w-full max-w-4xl">
-          <Accordion type="single" collapsible defaultValue="item-0" className="w-full">
-            {projectCategories.map((category, index) => (
-              <AccordionItem key={category.name} value={`item-${index}`} className="border-border/50">
-                <AccordionTrigger className="py-6 text-lg hover:no-underline">
-                  <div className="flex items-center gap-4">
-                    {category.icon}
-                    <span className="font-headline text-xl text-primary drop-shadow-glow-primary">{category.name}</span>
+        <div className="mx-auto mt-16 w-full max-w-6xl space-y-20">
+            {projectCategories.map((category) => (
+              <div key={category.name}>
+                <div className="flex items-center gap-4 mb-8">
+                  {category.icon}
+                  <h3 className="font-headline text-2xl font-bold text-primary drop-shadow-glow-primary">{category.name}</h3>
+                </div>
+                {category.projects.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {category.projects.map((project) => (
+                      <ProjectCard key={project.title} project={project} />
+                    ))}
                   </div>
-                </AccordionTrigger>
-                <AccordionContent className="pt-4 pb-8">
-                  {category.projects.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                      {category.projects.map((project) => (
-                        <ProjectCard key={project.title} project={project} />
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-center text-foreground/70">
-                      Projects in this category are coming soon. Stay tuned!
-                    </p>
-                  )}
-                </AccordionContent>
-              </AccordionItem>
+                ) : (
+                  <p className="text-center text-foreground/70">
+                    Projects in this category are coming soon. Stay tuned!
+                  </p>
+                )}
+              </div>
             ))}
-          </Accordion>
         </div>
       </div>
     </section>
