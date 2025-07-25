@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 const socialLinks = [
-  { icon: Linkedin, href: "#", name: "LinkedIn" },
-  { icon: Github, href: "#", name: "GitHub" },
-  { icon: Twitter, href: "#", name: "Twitter" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/angole-sharif-abubakar/", name: "LinkedIn" },
+  { icon: Github, href: "https://github.com/SharifIdris", name: "GitHub" },
+  { icon: Twitter, href: "https://x.com/Sharifidris82", name: "Twitter" },
 ];
 
 export default function Footer() {
@@ -22,7 +22,7 @@ export default function Footer() {
             </p>
              <div className="mt-4 flex items-center justify-center gap-2 text-foreground/80 md:justify-start">
                 <Mail className="h-5 w-5" />
-                <a href="mailto:sharif@example.com" className="hover:text-primary">sharif@example.com</a>
+                <a href="mailto:sharifidris8@gmail.com" className="hover:text-primary">sharifidris8@gmail.com</a>
             </div>
           </div>
           <div className="flex items-center gap-4">
