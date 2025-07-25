@@ -38,6 +38,7 @@ const serviceCategories = [
     title: "Web Development",
     subtitle: "From MVPs to scalable systems — fast, functional, and user-focused.",
     items: [
+      "Development Powered by AI Tools",
       "Front-End Development (React, Next.js, TypeScript)",
       "Backend Integration (Firebase, Supabase, Bolt.diy)",
       "Portfolio & CMS Setup (Netlify CMS, Contentful)",
