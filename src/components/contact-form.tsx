@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -30,7 +31,7 @@ const formSchema = z.object({
   }),
 });
 
-// IMPORTANT: Replace this with your own form submission endpoint from a service like Formspree or Web3Forms.
+// IMPORTANT: This is your unique Formspree endpoint.
 const FORM_ENDPOINT = "https://formspree.io/f/mzzvravr"; 
 
 export function ContactForm() {
@@ -49,22 +50,16 @@ export function ContactForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      if (FORM_ENDPOINT.includes("your_unique_id")) {
-        // This is a fallback for demonstration if the endpoint is not replaced.
-        console.log("Form submitted (simulation):", values);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      } else {
-        const response = await fetch(FORM_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        });
+      const response = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+      });
 
-        if (!response.ok) {
-            throw new Error("Form submission failed.");
-        }
+      if (!response.ok) {
+          throw new Error("Form submission failed.");
       }
       
       toast({
