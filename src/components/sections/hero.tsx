@@ -4,6 +4,7 @@ import { LinkedInConnect } from '@/components/linkedin-connect';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Download } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
+import Image from "next/image";
 
 export default function Hero() {
     const bio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.`;
@@ -37,42 +38,61 @@ Let’s connect if you're hiring, collaborating, or passionate about AI, cyberse
             />
         </div>
       <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl">
-          <h1 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-6xl drop-shadow-glow-primary">
-            Angole Sharif Abubakar
-          </h1>
-          <div className="mt-4 text-2xl font-semibold text-foreground/90 sm:text-3xl h-10 sm:h-auto">
-            <TypeAnimation
-              sequence={[
-                'Certified Virtual Assistant',
-                2000,
-                'AI Tools Expert',
-                2000,
-                'Data Science Enthusiast',
-                2000,
-                'Aspiring Cybersecurity Professional',
-                2000,
-              ]}
-              wrapper="span"
-              speed={50}
-              repeat={Infinity}
-              cursor={true}
-            />
-          </div>
-          <p className="mt-6 text-lg leading-8 text-foreground/80">
-            {bio}
-          </p>
-          <div className="mt-10 flex items-center gap-x-6">
-            <LinkedInConnect websiteContent={fullBio}>
-                <Button size="lg" className="group">
-                    Connect on LinkedIn
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+            <div className="max-w-3xl">
+              <h1 className="font-headline text-4xl font-bold tracking-tight text-primary drop-shadow-glow-primary sm:text-6xl">
+                Angole Sharif Abubakar
+              </h1>
+              <div className="mt-4 text-2xl font-semibold text-foreground/90 sm:text-3xl h-10 sm:h-auto">
+                <TypeAnimation
+                  sequence={[
+                    'Certified Virtual Assistant',
+                    2000,
+                    'AI Tools Expert',
+                    2000,
+                    'Data Science Enthusiast',
+                    2000,
+                    'Aspiring Cybersecurity Professional',
+                    2000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  repeat={Infinity}
+                  cursor={true}
+                  className="drop-shadow-glow-primary"
+                />
+              </div>
+              <p className="mt-6 text-lg leading-8 text-foreground/80">
+                {bio}
+              </p>
+              <div className="mt-10 flex items-center gap-x-6">
+                <LinkedInConnect websiteContent={fullBio}>
+                    <Button size="lg" className="group">
+                        Connect on LinkedIn
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                </LinkedInConnect>
+                <Button size="lg" variant="outline" className="group">
+                    Download CV <Download className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
                 </Button>
-            </LinkedInConnect>
-            <Button size="lg" variant="outline" className="group">
-                Download CV <Download className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
-            </Button>
-          </div>
+              </div>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative w-80 h-[28rem] rounded-lg border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary">
+                <Image
+                  src="https://placehold.co/400x500.png"
+                  alt="A professional photo of Angole Sharif Abubakar"
+                  data-ai-hint="professional portrait"
+                  width={400}
+                  height={500}
+                  className="rounded-md object-cover w-full h-full"
+                />
+                 <div className="absolute -bottom-4 -right-4 bg-background p-4 rounded-lg border border-border/50">
+                    <p className="font-headline text-primary text-lg drop-shadow-glow-primary">Angole Sharif</p>
+                    <p className="text-foreground/80 text-sm">Tech Enthusiast & Problem Solver</p>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </section>
