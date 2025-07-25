@@ -2,30 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import Image from "next/image";
-
-const testimonials = [
-  {
-    name: "John Doe",
-    title: "CEO, Startup Inc.",
-    quote: "Sharif's expertise in AI and automation was a game-changer for our team. He streamlined our workflows and boosted our productivity by at least 30%. Highly recommended!",
-    avatarUrl: "https://placehold.co/100x100.png",
-    avatarHint: "man portrait",
-  },
-  {
-    name: "Jane Smith",
-    title: "Founder, Creative Solutions",
-    quote: "As a non-technical founder, I was struggling to get my MVP off the ground. Sharif not only built a functional and beautiful prototype in record time but also taught me how to manage it. A true partner.",
-    avatarUrl: "https://placehold.co/100x100.png",
-    avatarHint: "woman portrait",
-  },
-  {
-    name: "Samuel Lee",
-    title: "Marketing Director, Tech Corp.",
-    quote: "The custom AI tools Sharif developed for our content pipeline have saved us countless hours. His ability to understand our needs and translate them into a technical solution is unparalleled.",
-    avatarUrl: "https://placehold.co/100x100.png",
-    avatarHint: "person smiling",
-  },
-];
+import { getTestimonials } from "@/lib/contentful/client";
+import { Testimonial } from "@/content/testimonials";
 
 const renderStars = (rating: number) => {
     const stars = [];
@@ -35,7 +13,13 @@ const renderStars = (rating: number) => {
     return stars;
 };
 
-export default function Testimonials() {
+export default async function Testimonials() {
+  const testimonials: Testimonial[] = await getTestimonials();
+  
+  if (!testimonials || testimonials.length === 0) {
+    return null; // Don't render the section if there are no testimonials
+  }
+
   return (
     <section id="testimonials" className="py-24 sm:py-32 bg-background/80">
       <div className="container mx-auto px-4 md:px-6">
