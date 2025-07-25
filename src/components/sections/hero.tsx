@@ -5,8 +5,13 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Download } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 import Image from "next/image";
+import { HeroData } from '@/content/hero';
 
-export default function Hero() {
+type HeroProps = {
+  heroData: HeroData | null;
+}
+
+export default function Hero({ heroData }: HeroProps) {
     const bio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.`;
 
     const fullBio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.
@@ -80,11 +85,12 @@ Let’s connect if you're hiring, collaborating, or passionate about AI, cyberse
             <div className="flex justify-center lg:justify-end">
               <div className="relative w-80 h-[28rem] rounded-lg border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary">
                 <Image
-                  src="https://placehold.co/400x500.png"
+                  src={heroData?.imageUrl || "https://placehold.co/400x500.png"}
                   alt="A professional photo of Angole Sharif Abubakar"
-                  data-ai-hint="professional portrait"
+                  data-ai-hint={heroData?.imageHint || "professional portrait"}
                   width={400}
                   height={500}
+                  priority
                   className="rounded-md object-cover w-full h-full"
                 />
                  <div className="absolute -bottom-4 -right-4 bg-background p-4 rounded-lg border border-border/50">

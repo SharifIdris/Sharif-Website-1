@@ -6,91 +6,12 @@ import Image from "next/image";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Bot, Briefcase, ShieldCheck, BarChart3, ChevronDown } from "lucide-react";
+import { ExternalLink, Github, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { Project, ProjectCategory } from "@/content/projects";
 
-const projectCategories = [
-  {
-    name: "AI & Development",
-    icon: <Bot className="h-8 w-8 text-primary" />,
-    projects: [
-      {
-        title: "AI-Powered Task Manager",
-        description: "A smart task management application that uses natural language processing to categorize and prioritize tasks automatically. Built to streamline productivity for small teams.",
-        techStack: ["Next.js", "TypeScript", "Firebase", "Genkit", "Tailwind CSS"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "task manager",
-      },
-       {
-        title: "Cybersecurity News Aggregator",
-        description: "A web app that aggregates the latest news and articles on cybersecurity from various sources, using tags for easy filtering. Helps security professionals stay updated.",
-        techStack: ["Next.js", "Contentful", "GraphQL", "Vercel"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "cybersecurity news",
-      },
-    ]
-  },
-  {
-    name: "Virtual Assistant Projects",
-    icon: <Briefcase className="h-8 w-8 text-primary" />,
-    projects: [
-      {
-        title: "Automated Client Onboarding",
-        description: "An internal tool designed to automate the client onboarding process, from initial contact to project setup. Reduces manual data entry and ensures a smooth start for every client.",
-        techStack: ["React", "Node.js", "Supabase", "Trello API", "SendGrid"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "client onboarding",
-      },
-    ]
-  },
-  {
-    name: "Data Science Projects",
-    icon: <BarChart3 className="h-8 w-8 text-primary" />,
-    projects: [
-       {
-        title: "Sentiment Analysis Dashboard",
-        description: "A dashboard that visualizes customer feedback sentiment from multiple sources. Helps businesses quickly gauge public opinion and identify areas for improvement.",
-        techStack: ["Python", "Flask", "Plotly", "Pandas", "NLTK"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "data dashboard",
-      },
-       {
-        title: "Sales Forecasting Model",
-        description: "A machine learning model that predicts future sales based on historical data, seasonality, and marketing spend. Built to help optimize inventory and budget planning.",
-        techStack: ["Jupyter", "Scikit-learn", "TensorFlow", "Matplotlib"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "sales chart",
-      },
-    ]
-  },
-   {
-    name: "Cybersecurity Projects",
-    icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-    projects: [
-        {
-        title: "Network Vulnerability Scanner",
-        description: "A command-line tool that scans a local network for open ports and known vulnerabilities. Developed to help administrators identify and patch security weaknesses.",
-        techStack: ["Python", "Nmap", "Socket"],
-        liveUrl: "#",
-        githubUrl: "#",
-        imageUrl: "https://placehold.co/600x400.png",
-        imageHint: "network security",
-      },
-    ]
-  },
-];
 
-const ProjectCard = ({ project }: { project: typeof projectCategories[0]['projects'][0] }) => {
+const ProjectCard = ({ project }: { project: Project }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -159,8 +80,12 @@ const ProjectCard = ({ project }: { project: typeof projectCategories[0]['projec
   );
 };
 
-export default function Projects() {
-  const [openCategory, setOpenCategory] = useState<string | null>(projectCategories[0].name);
+type ProjectsProps = {
+  projectCategories: ProjectCategory[];
+}
+
+export default function Projects({ projectCategories }: ProjectsProps) {
+  const [openCategory, setOpenCategory] = useState<string | null>(projectCategories.length > 0 ? projectCategories[0].name : null);
 
   const handleCategoryClick = (categoryName: string) => {
     setOpenCategory(openCategory === categoryName ? null : categoryName);

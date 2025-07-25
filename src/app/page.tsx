@@ -7,19 +7,38 @@ import Certifications from '@/components/sections/certifications';
 import Testimonials from '@/components/sections/testimonials';
 import Blog from '@/components/sections/blog';
 import Footer from '@/components/layout/footer';
+import { getBlogPosts, getCertifications, getProjectCategories, getServiceCategories, getSkillCategories, getTestimonials, getHeroData } from '@/lib/contentful/client.tsx';
 
-export default function Home() {
+export default async function Home() {
+  const [
+    heroData,
+    serviceCategories,
+    skillCategories,
+    projectCategories,
+    certifications,
+    testimonials,
+    blogPosts
+  ] = await Promise.all([
+    getHeroData(),
+    getServiceCategories(),
+    getSkillCategories(),
+    getProjectCategories(),
+    getCertifications(),
+    getTestimonials(),
+    getBlogPosts()
+  ]);
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <Hero />
-        <Services />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Testimonials />
-        <Blog />
+        <Hero heroData={heroData} />
+        <Services serviceCategories={serviceCategories} />
+        <Skills skillCategories={skillCategories} />
+        <Projects projectCategories={projectCategories} />
+        <Certifications certifications={certifications} />
+        <Testimonials testimonials={testimonials} />
+        <Blog blogPosts={blogPosts} />
       </main>
       <Footer />
     </div>
