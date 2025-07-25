@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, CodeXml } from "lucide-react";
+import { Menu } from "lucide-react";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -14,6 +14,41 @@ const navLinks = [
   { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
+
+function Logo() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      className="h-8 w-8 text-primary"
+    >
+      <defs>
+        <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g filter="url(#neon-glow)">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="5" />
+        <text 
+          x="50" 
+          y="58" 
+          fontFamily="Space Grotesk, sans-serif" 
+          fontSize="38" 
+          fill="currentColor" 
+          textAnchor="middle" 
+          fontWeight="bold"
+        >
+          SD
+        </text>
+      </g>
+    </svg>
+  );
+}
+
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,7 +89,7 @@ export default function Header() {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <CodeXml className="h-6 w-6 text-primary drop-shadow-glow-primary" />
+          <Logo />
           <span className="font-headline text-xl font-bold text-primary drop-shadow-glow-primary">
             Sharif's Digital Hub
           </span>
@@ -72,7 +107,7 @@ export default function Header() {
             <SheetContent side="right">
               <nav className="flex flex-col items-start gap-4 p-4">
                  <Link href="/" onClick={() => setIsSheetOpen(false)} className="flex items-center gap-2 mb-4">
-                    <CodeXml className="h-6 w-6 text-primary drop-shadow-glow-primary" />
+                    <Logo />
                     <span className="font-headline text-xl font-bold text-primary drop-shadow-glow-primary">
                         Sharif's Digital Hub
                     </span>
