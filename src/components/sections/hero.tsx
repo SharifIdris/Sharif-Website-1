@@ -4,17 +4,11 @@
 import { useState } from "react";
 import { LinkedInConnect } from '@/components/linkedin-connect';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Download, Briefcase, Bot, ShieldCheck, Cpu } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 import Image from "next/image";
 import { HeroData } from '@/content/hero';
 import { cn } from "@/lib/utils";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Card } from "../ui/card";
 
 
@@ -39,21 +33,6 @@ Currently, my work as a Virtual Assistant enables me to live out my passion ever
 
 Let’s connect if you’re hiring, collaborating, or passionate about technology, security, or AI-powered productivity.`;
 
-  const headlines = [
-      {
-          icon: <Briefcase className="h-5 w-5 text-primary" />,
-          title: "Certified Virtual Assistant & AI Tools Expert"
-      },
-      {
-          icon: <Cpu className="h-5 w-5 text-primary" />,
-          title: "Bridging Admin Precision with AI Fluency"
-      },
-      {
-          icon: <ShieldCheck className="h-5 w-5 text-primary" />,
-          title: "Aspiring Cybersecurity & Data Science Pro"
-      }
-  ]
-  
   const backContent = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant and AI Tools Expert with a strong passion for digital efficiency, productivity, and tech-powered problem solving. I help individuals and businesses work smarter by combining human-centered support with powerful tools like Notion, ChatGPT, Trello, Canva, and Google Workspace.
 
 What sets me apart is my unique blend of administrative precision, AI fluency, and technical curiosity. I’m not only experienced in managing virtual operations, but also actively building my foundation in the world of cybersecurity and data science.
@@ -124,37 +103,35 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
             </div>
             <div className="flex justify-center lg:justify-end [perspective:1000px]">
                 <div
-                    className="relative w-80 h-[28rem] cursor-pointer group"
+                    className={cn(
+                        "relative w-80 h-[28rem] cursor-pointer transition-transform duration-700 [transform-style:preserve-3d]",
+                        isFlipped && "[transform:rotateY(180deg)]"
+                    )}
                     onClick={() => setIsFlipped(!isFlipped)}
                 >
-                    <Card
-                        className={cn(
-                        "absolute inset-0 h-full w-full transform-gpu border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary transition-all duration-700 [transform-style:preserve-3d]",
-                        isFlipped && "[transform:rotateY(180deg)]"
-                        )}
-                    >
-                        {/* Front of the card */}
-                        <div className="absolute inset-0 p-2 [backface-visibility:hidden]">
-                            <Image
-                                src={heroData?.imageUrl || "https://placehold.co/400x500.png"}
-                                alt="A professional photo of Angole Sharif Abubakar"
-                                data-ai-hint={heroData?.imageHint || "professional portrait"}
-                                width={400}
-                                height={500}
-                                priority
-                                className="rounded-md object-cover w-full h-full"
-                            />
-                             <div className="absolute bottom-4 right-4 text-white/90 text-xs bg-black/50 p-1 rounded-md">Click to learn more</div>
-                        </div>
+                    {/* Front of the card */}
+                    <Card className="absolute inset-0 h-full w-full border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary [backface-visibility:hidden]">
+                        <Image
+                            src={heroData?.imageUrl || "https://placehold.co/400x500.png"}
+                            alt="A professional photo of Angole Sharif Abubakar"
+                            data-ai-hint={heroData?.imageHint || "professional portrait"}
+                            width={400}
+                            height={500}
+                            priority
+                            className="rounded-md object-cover w-full h-full"
+                        />
+                         <div className="absolute bottom-4 right-4 text-white/90 text-xs bg-black/50 p-1 rounded-md">Click to learn more</div>
+                    </Card>
 
-                        {/* Back of the card */}
-                        <div className="absolute inset-0 flex flex-col rounded-lg bg-card/95 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
-                           <h3 className="text-center font-headline text-lg font-bold text-primary drop-shadow-glow-primary mb-2">
-                                About Me
-                            </h3>
-                            <p className="text-sm text-foreground/80 whitespace-pre-wrap">
-                                {backContent}
-                            </p>
+                    {/* Back of the card */}
+                    <Card className="absolute inset-0 h-full w-full flex flex-col rounded-lg bg-card/95 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                       <h3 className="text-center font-headline text-lg font-bold text-primary drop-shadow-glow-primary mb-2 flex-shrink-0">
+                            About Me
+                        </h3>
+                        <div className="overflow-y-auto flex-grow">
+                          <p className="text-sm text-foreground/80 whitespace-pre-wrap">
+                              {backContent}
+                          </p>
                         </div>
                     </Card>
                 </div>
@@ -164,5 +141,3 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
     </section>
   );
 }
-
-    
