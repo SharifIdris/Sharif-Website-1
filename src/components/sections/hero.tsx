@@ -1,33 +1,58 @@
+
 "use client";
 
+import { useState } from "react";
 import { LinkedInConnect } from '@/components/linkedin-connect';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Download } from 'lucide-react';
+import { ArrowRight, Download, Briefcase, Bot, ShieldCheck, Cpu } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 import Image from "next/image";
 import { HeroData } from '@/content/hero';
+import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card } from "../ui/card";
+
 
 type HeroProps = {
   heroData: HeroData | null;
 }
 
 export default function Hero({ heroData }: HeroProps) {
+    const [isFlipped, setIsFlipped] = useState(false);
+
     const bio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.`;
 
-    const fullBio = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant, AI Tools Expert, and early-stage Developer with a passion for building efficient, tech-driven solutions. I help individuals, startups, and small businesses work smarter by combining digital organization, automation, and fast MVP development.
+    const fullBio = `I’m Angole Sharif Abubakar, a Certified Virtual Assistant and AI Tools Expert with a strong passion for digital efficiency, productivity, and tech-powered problem-solving. I help individuals and businesses work smarter by combining human-centered support with powerful tools like Notion, ChatGPT, Trello, Canva, and Google Workspace.
 
-What sets me apart is my unique blend of virtual assistance, AI fluency, and full-stack development skills. Alongside managing calendars, communications, and task workflows with tools like Notion, ChatGPT, Trello, and Google Workspace, I also create Minimum Viable Products (MVPs) using technologies like: TypeScript, Next.js, React, Firebase, Supabase, Contentful.
+What sets me apart is my unique blend of administrative precision, AI fluency, and technical curiosity. I’m not only experienced in managing virtual operations, but also actively building my foundation in the world of cybersecurity and data science.
 
-Whether it’s setting up a client management system, building an internal tool, or automating operations with AI — I deliver quick, functional, and scalable solutions.
+I’m currently studying Computer Science at Busitema University, while enrolled in professional tracks with ALX Africa (Cybersecurity & Data Science) and CISCO’s Ethical Hacking program. This learning journey is part of a bigger mission.
 
-I’m currently pursuing a Bachelor of Science in Computer Science at Busitema University, and advancing my technical knowledge through ALX Africa’s Cybersecurity and Data Science programs, alongside CISCO’s Ethical Hacking training.
+My long-term vision is clear: to evolve into a Data Scientist enriched with cybersecurity expertise, someone who can protect digital systems, analyze complex data, and drive intelligent, secure decision-making across industries.
 
-At the end of the day, my mission is to grow into a Data Scientist with a strong foundation in Cybersecurity — capable of analyzing complex data, protecting digital infrastructure, and building secure, data-powered systems.
+Currently, my work as a Virtual Assistant enables me to live out my passion every day by solving problems, staying organized, automating tasks, and supporting the businesses of tomorrow.
 
-My work as a Virtual Assistant and Developer is already helping me live that passion — by solving problems, optimizing systems, and building tools that matter.
+Let’s connect if you’re hiring, collaborating, or passionate about technology, security, or AI-powered productivity.`;
 
-Let’s connect if you're hiring, collaborating, or passionate about AI, cybersecurity, or product development.`;
-
+  const headlines = [
+      {
+          icon: <Briefcase className="h-5 w-5 text-primary" />,
+          title: "Certified Virtual Assistant & AI Tools Expert"
+      },
+      {
+          icon: <Cpu className="h-5 w-5 text-primary" />,
+          title: "Bridging Admin Precision with AI Fluency"
+      },
+      {
+          icon: <ShieldCheck className="h-5 w-5 text-primary" />,
+          title: "Aspiring Cybersecurity & Data Science Pro"
+      }
+  ]
 
   return (
     <section id="about" className="relative overflow-hidden bg-background py-24 sm:py-32">
@@ -84,25 +109,59 @@ Let’s connect if you're hiring, collaborating, or passionate about AI, cyberse
                 </a>
               </div>
             </div>
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative w-80 h-[28rem] rounded-lg border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary">
-                <Image
-                  src={heroData?.imageUrl || "https://placehold.co/400x500.png"}
-                  alt="A professional photo of Angole Sharif Abubakar"
-                  data-ai-hint={heroData?.imageHint || "professional portrait"}
-                  width={400}
-                  height={500}
-                  priority
-                  className="rounded-md object-cover w-full h-full"
-                />
-                 <div className="absolute -bottom-4 -right-4 bg-background p-4 rounded-lg border border-border/50">
-                    <p className="font-headline text-primary text-lg drop-shadow-glow-primary">Angole Sharif</p>
-                    <p className="text-foreground/80 text-sm">Tech Enthusiast & Problem Solver</p>
+            <div className="flex justify-center lg:justify-end [perspective:1000px]">
+                <div
+                    className="relative w-80 h-[28rem] cursor-pointer group"
+                    onClick={() => setIsFlipped(!isFlipped)}
+                >
+                    <Card
+                        className={cn(
+                        "absolute inset-0 h-full w-full transform-gpu border-2 border-primary/50 p-2 shadow-2xl shadow-primary/20 drop-shadow-glow-primary transition-all duration-700 [transform-style:preserve-3d]",
+                        isFlipped && "[transform:rotateY(180deg)]"
+                        )}
+                    >
+                        {/* Front of the card */}
+                        <div className="absolute inset-0 p-2 [backface-visibility:hidden]">
+                            <Image
+                                src={heroData?.imageUrl || "https://placehold.co/400x500.png"}
+                                alt="A professional photo of Angole Sharif Abubakar"
+                                data-ai-hint={heroData?.imageHint || "professional portrait"}
+                                width={400}
+                                height={500}
+                                priority
+                                className="rounded-md object-cover w-full h-full"
+                            />
+                             <div className="absolute bottom-4 right-4 text-white/90 text-xs bg-black/50 p-1 rounded-md">Click to learn more</div>
+                        </div>
+
+                        {/* Back of the card */}
+                        <div className="absolute inset-0 flex flex-col rounded-lg bg-card/95 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                            <h3 className="text-center font-headline text-lg font-bold text-primary drop-shadow-glow-primary">
+                                More About Me
+                            </h3>
+                            <Accordion type="single" collapsible className="w-full mt-2">
+                                {headlines.map((item, index) => (
+                                    <AccordionItem value={`item-${index}`} key={item.title}>
+                                        <AccordionTrigger className="text-left hover:no-underline">
+                                            <div className="flex items-center gap-2">
+                                                {item.icon}
+                                                <span className="font-semibold text-foreground/90 text-sm">{item.title}</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-sm text-foreground/80 px-2">
+                                            {fullBio}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </div>
+                    </Card>
                 </div>
-              </div>
             </div>
         </div>
       </div>
     </section>
   );
 }
+
+    
