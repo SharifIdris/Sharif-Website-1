@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project, ProjectCategory } from "@/content/projects";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 
 const ProjectCard = ({ project }: { project: Project }) => {
@@ -48,10 +49,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
             </div>
 
             {/* Back of the card */}
-            <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+            <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
                 <CardHeader className="p-2">
                     <CardTitle className="font-headline text-lg text-primary drop-shadow-glow-primary">{project.title}</CardTitle>
-                    <CardDescription className="pt-1 text-xs text-foreground/80">{project.description}</CardDescription>
+                    <CardDescription className="pt-1 text-xs text-foreground/80">
+                        {project.description ? documentToReactComponents(project.description) : 'No description available.'}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow p-2">
                      <div className="flex flex-wrap gap-1">
@@ -60,7 +63,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                         ))}
                     </div>
                 </CardContent>
-                <CardFooter className="p-2">
+                <CardFooter className="p-2 mt-auto">
                     <div className="flex gap-2">
                     <Button variant="outline" size="sm" asChild onClick={(e) => e.stopPropagation()}>
                         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">

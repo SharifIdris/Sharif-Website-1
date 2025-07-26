@@ -1,13 +1,26 @@
 import { createClient, type ContentfulClientApi, type Entry } from "contentful";
 import type { BlogPost } from "@/content/blog-posts";
-import type { ServiceCategory, ServiceIcon } from "@/content/services";
-import type { Skill, SkillCategory, SkillIcon } from "@/content/skills";
-import type { Project, ProjectCategory, ProjectIcon } from "@/content/projects";
-import type { Certification, CertificationIcon } from "@/content/certifications";
+import type { ServiceCategory } from "@/content/services";
+import type { SkillCategory } from "@/content/skills";
+import type { ProjectCategory } from "@/content/projects";
+import type { Certification } from "@/content/certifications";
 import type { Testimonial } from "@/content/testimonials";
 import type { HeroData } from "@/content/hero";
 import * as LucideIcons from "lucide-react";
 import React from 'react';
+
+// Mappers for icons - to be defined based on actual string values from Contentful
+const iconMap: { [key: string]: React.ElementType } = {
+    Briefcase: LucideIcons.Briefcase,
+    Bot: LucideIcons.Bot,
+    Code: LucideIcons.Code,
+    BarChart3: LucideIcons.BarChart3,
+    ShieldCheck: LucideIcons.ShieldCheck,
+    Award: LucideIcons.Award,
+    DatabaseZap: LucideIcons.DatabaseZap,
+    default: LucideIcons.Briefcase, // Fallback icon
+};
+
 
 let client: ContentfulClientApi<any> | null = null;
 
@@ -27,54 +40,29 @@ function getContentfulClient() {
 
 const handleFetchError = (error: any, contentType: string): [] => {
     console.error(`Error fetching ${contentType} from Contentful:`, error);
+    // In a real app, you might want to log this to a service like Sentry
     return [];
 }
 
-const getIcon = (iconName: string, iconMap: Record<string, React.ElementType>): React.ReactNode => {
-    const IconComponent = iconMap[iconName as keyof typeof iconMap] || iconMap['default'];
+const getIcon = (iconName: string | undefined): React.ReactNode => {
+    const IconComponent = iconName ? iconMap[iconName] || iconMap['default'] : iconMap['default'];
+    // Adjusting icon styling to match existing components
+    if (['Award', 'ShieldCheck', 'DatabaseZap'].includes(iconName || '')) {
+         return <IconComponent className="h-12 w-12 text-primary drop-shadow-glow-primary" />;
+    }
+     if (['Briefcase', 'Bot', 'BarChart3'].includes(iconName || '')) {
+         return <IconComponent className="h-8 w-8 text-accent" />;
+    }
     return <IconComponent className="h-16 w-16 text-primary drop-shadow-glow-primary" />;
 };
 
+
 const getAssetUrl = (asset: any, defaultUrl: string): string => {
-    if (asset && 'fields' in asset && asset.fields.file) {
+    if (asset && asset.fields && asset.fields.file && asset.fields.file.url) {
         return 'https:' + asset.fields.file.url;
     }
     return defaultUrl;
 };
-
-// Mappers for icons
-const serviceIconMap: Record<ServiceIcon, React.ElementType> = {
-    Briefcase: LucideIcons.Briefcase,
-    Bot: LucideIcons.Bot,
-    Code: LucideIcons.Code,
-    BarChart3: LucideIcons.BarChart3,
-    ShieldCheck: LucideIcons.ShieldCheck,
-    default: LucideIcons.Briefcase,
-};
-
-const skillIconMap: Record<SkillIcon, React.ElementType> = {
-    Briefcase: LucideIcons.Briefcase,
-    Bot: LucideIcons.Bot,
-    BarChart3: LucideIcons.BarChart3,
-    ShieldCheck: LucideIcons.ShieldCheck,
-    default: LucideIcons.Briefcase,
-};
-
-const projectIconMap: Record<ProjectIcon, React.ElementType> = {
-    Bot: LucideIcons.Bot,
-    Briefcase: LucideIcons.Briefcase,
-    ShieldCheck: LucideIcons.ShieldCheck,
-    BarChart3: LucideIcons.BarChart3,
-    default: LucideIcons.Bot,
-};
-
-const certificationIconMap: Record<CertificationIcon, React.ElementType> = {
-    ShieldCheck: LucideIcons.ShieldCheck,
-    Award: LucideIcons.Award,
-    DatabaseZap: LucideIcons.DatabaseZap,
-    default: LucideIcons.Award,
-};
-
 
 // --- Data Fetching Functions ---
 
@@ -101,10 +89,10 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     if (!client) return [];
     try {
         const entries = await client.getEntries({ content_type: 'blogPost', order: ['-fields.date'] });
-        return entries.items.map(item => ({
-            title: item.fields.title as string || '',
-            excerpt: item.fields.excerpt as string || '',
-            tags: (item.fields.tags as string[]) || [],
+        return entries.items.map((item: any) => ({
+            title: item.fields.title || '',
+            excerpt: item.fields.excerpt || '',
+            tags: item.fields.tags || [],
             imageUrl: getAssetUrl(item.fields.image, 'https://placehold.co/600x400.png'),
             imageHint: "blog post",
         }));
@@ -117,12 +105,12 @@ export async function getServiceCategories(): Promise<ServiceCategory[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'serviceCategory' });
-        return entries.items.map(item => ({
-            title: item.fields.title as string || '',
-            subtitle: item.fields.subtitle as string || '',
-            items: (item.fields.items as string[]) || [],
-            icon: getIcon(item.fields.icon as string, serviceIconMap),
+        const entries = await client.getEntries({ content_type: 'service' });
+        return entries.items.map((item: any) => ({
+            title: item.fields.title || '',
+            subtitle: item.fields.subtitle || '',
+            items: item.fields.items || [],
+            icon: getIcon(item.fields.icon),
         }));
     } catch (error) {
         return handleFetchError(error, 'service categories');
@@ -134,13 +122,13 @@ export async function getSkillCategories(): Promise<SkillCategory[]> {
     if (!client) return [];
     try {
         const entries = await client.getEntries({ content_type: 'skillCategory', include: 1 });
-        return entries.items.map(item => ({
-            title: item.fields.title as string || '',
-            icon: getIcon(item.fields.icon as string, skillIconMap),
-            skills: (item.fields.skills as Entry<Skill>[])?.map(skillEntry => ({
+        return entries.items.map((item: any) => ({
+            title: item.fields.title || '',
+            icon: getIcon(item.fields.icon),
+            skills: (item.fields.skills || []).map((skillEntry: any) => ({
                 name: skillEntry.fields.name || '',
                 level: skillEntry.fields.level || 0,
-            })) || [],
+            })),
         }));
     } catch (error) {
         return handleFetchError(error, 'skill categories');
@@ -152,18 +140,18 @@ export async function getProjectCategories(): Promise<ProjectCategory[]> {
     if (!client) return [];
     try {
         const entries = await client.getEntries({ content_type: 'projectCategory', include: 2 });
-        return entries.items.map(item => ({
-            name: item.fields.name as string || '',
-            icon: getIcon(item.fields.icon as string, projectIconMap),
-            projects: (item.fields.projects as Entry<Project>[])?.map(projectEntry => ({
+        return entries.items.map((item: any) => ({
+            name: item.fields.name || '',
+            icon: getIcon(item.fields.icon),
+            projects: (item.fields.projects || []).map((projectEntry: any) => ({
                 title: projectEntry.fields.title || '',
-                description: projectEntry.fields.description || '',
+                description: projectEntry.fields.description || null,
                 techStack: projectEntry.fields.techStack || [],
                 liveUrl: projectEntry.fields.liveUrl || '#',
                 githubUrl: projectEntry.fields.githubUrl || '#',
                 imageUrl: getAssetUrl(projectEntry.fields.image, 'https://placehold.co/600x400.png'),
-                imageHint: (projectEntry.fields.title as string || 'project').toLowerCase().split(' ').slice(0,2).join(' '),
-            })) || [],
+                imageHint: (projectEntry.fields.title || 'project').toLowerCase().split(' ').slice(0,2).join(' '),
+            })),
         }));
     } catch (error) {
         return handleFetchError(error, 'project categories');
@@ -175,11 +163,11 @@ export async function getCertifications(): Promise<Certification[]> {
     if (!client) return [];
     try {
         const entries = await client.getEntries({ content_type: 'certification' });
-        return entries.items.map(item => ({
-            issuer: item.fields.issuer as string || '',
-            name: item.fields.name as string || '',
-            description: item.fields.description as string || '',
-            icon: getIcon(item.fields.icon as string, certificationIconMap),
+        return entries.items.map((item: any) => ({
+            issuer: item.fields.issuer || '',
+            name: item.fields.name || '',
+            description: item.fields.description || '',
+            icon: getIcon(item.fields.icon),
         }));
     } catch (error) {
         return handleFetchError(error, 'certifications');
@@ -190,8 +178,8 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'testimonial' });
-        return entries.items.map(item => ({
+        const entries = await client.getEntries({ content_type: 'Testimonial' });
+        return entries.items.map((item: any) => ({
             name: item.fields.name as string || '',
             title: item.fields.title as string || '',
             quote: item.fields.quote as string || '',
