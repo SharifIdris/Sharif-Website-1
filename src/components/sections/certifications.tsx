@@ -64,9 +64,9 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 </div>
 
                 {/* Back of the card */}
-                <div className="absolute inset-0 flex flex-col justify-center rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                   <h3 className="font-headline text-lg font-bold text-primary text-center mb-2">{cert.name}</h3>
-                   <p className="text-sm text-foreground/80 text-center">{cert.description}</p>
+                <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                   <h3 className="font-headline text-lg font-bold text-primary text-left mb-2">{cert.name}</h3>
+                   <p className="text-sm text-foreground/80 text-left">{cert.description}</p>
                 </div>
               </Card>
             </div>
