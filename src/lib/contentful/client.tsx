@@ -1,3 +1,4 @@
+
 import { createClient, type ContentfulClientApi, type Entry } from "contentful";
 import type { BlogPost } from "@/content/blog-posts";
 import type { ServiceCategory } from "@/content/services";
@@ -166,7 +167,7 @@ export async function getCertifications(): Promise<Certification[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'certification', order: ['fields.name'] });
+        const entries = await client.getEntries({ content_type: 'certificationEntry', order: ['fields.name'] });
         return entries.items.map((item: any) => ({
             issuer: item.fields.issuer || '',
             name: item.fields.name || '',
