@@ -6,8 +6,8 @@ import Projects from '@/components/sections/projects';
 import Certifications from '@/components/sections/certifications';
 import Testimonials from '@/components/sections/testimonials';
 import Blog from '@/components/sections/blog';
+import { getBlogPosts, getCertifications, getProjectCategories, getServiceCategories, getSkillCategories, getTestimonials, getHeroData } from '@/lib/contentful/client';
 import Footer from '@/components/layout/footer';
-import { getBlogPosts, getCertifications, getProjectCategories, getServiceCategories, getSkillCategories, getTestimonials, getHeroData } from '@/lib/contentful/client.tsx';
 
 export default async function Home() {
   const [
@@ -33,11 +33,11 @@ export default async function Home() {
       <Header />
       <main className="flex-1">
         <Hero heroData={heroData} />
-        <Services serviceCategories={serviceCategories} />
-        <Skills skillCategories={skillCategories} />
+        <Services />
+        <Skills />
         <Projects projectCategories={projectCategories} />
         <Certifications certifications={certifications} />
-        <Testimonials testimonials={testimonials} />
+        <Testimonials />
         <Blog blogPosts={blogPosts} />
       </main>
       <Footer />

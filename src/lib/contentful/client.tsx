@@ -2,7 +2,7 @@ import { createClient, type ContentfulClientApi, type Entry } from "contentful";
 import type { BlogPost } from "@/content/blog-posts";
 import type { ServiceCategory } from "@/content/services";
 import type { SkillCategory } from "@/content/skills";
-import type { ProjectCategory } from "@/content/projects";
+import type { ProjectCategory, Project } from "@/content/projects";
 import type { Certification } from "@/content/certifications";
 import type { Testimonial } from "@/content/testimonials";
 import type { HeroData } from "@/content/hero";
@@ -98,7 +98,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
             excerpt: item.fields.excerpt || '',
             tags: item.fields.tags || [],
             imageUrl: getAssetUrl(item.fields.image, 'https://placehold.co/600x400.png'),
-            imageHint: "blog post",
+            imageHint: (item.fields.title || "blog post").toLowerCase().split(' ').slice(0,2).join(' '),
         }));
     } catch (error) {
         return handleFetchError(error, 'blog posts');
@@ -143,11 +143,11 @@ export async function getProjectCategories(): Promise<ProjectCategory[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'projectCategory', include: 2 });
+        const entries = await client.getEntries({ content_type: 'projectCategory', include: 2, order: ['fields.name'] });
         return entries.items.map((item: any) => ({
             name: item.fields.name || '',
             icon: getIcon(item.fields.icon),
-            projects: (item.fields.projects || []).map((projectEntry: any) => ({
+            projects: (item.fields.projects || []).map((projectEntry: any): Project => ({
                 title: projectEntry.fields.title || '',
                 description: projectEntry.fields.description || null,
                 techStack: projectEntry.fields.techStack || [],
@@ -166,12 +166,14 @@ export async function getCertifications(): Promise<Certification[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'certification' });
+        const entries = await client.getEntries({ content_type: 'certification', order: ['fields.name'] });
         return entries.items.map((item: any) => ({
             issuer: item.fields.issuer || '',
             name: item.fields.name || '',
             description: item.fields.description || '',
             icon: getIcon(item.fields.icon),
+            imageUrl: getAssetUrl(item.fields.image, 'https://placehold.co/300x300.png'),
+            imageHint: (item.fields.name || 'certification').toLowerCase().split(' ').slice(0,2).join(' '),
         }));
     } catch (error) {
         return handleFetchError(error, 'certifications');

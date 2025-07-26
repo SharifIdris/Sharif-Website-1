@@ -5,4 +5,6 @@ export type Certification = {
   name: string;
   icon: ReactNode;
   description: string;
+  imageUrl: string;
+  imageHint: string;
 };

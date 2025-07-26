@@ -3,11 +3,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { getBlogPosts } from "@/lib/contentful/client";
 import { BlogPost } from "@/content/blog-posts";
 
-export default async function Blog() {
-  const blogPosts: BlogPost[] = await getBlogPosts();
+type BlogProps = {
+  blogPosts: BlogPost[];
+}
+
+export default function Blog({ blogPosts }: BlogProps) {
+  // Display only the 3 most recent posts
+  const recentPosts = blogPosts.slice(0, 3);
 
   return (
     <section id="blog" className="py-24 sm:py-32">
@@ -21,7 +25,7 @@ export default async function Blog() {
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-          {blogPosts.map((post) => (
+          {recentPosts.map((post) => (
             <Card key={post.title} className="flex flex-col transform-gpu overflow-hidden border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
               <CardHeader className="p-0">
                  <Image 
