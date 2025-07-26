@@ -8,6 +8,7 @@ import type { Testimonial } from "@/content/testimonials";
 import type { HeroData } from "@/content/hero";
 import * as LucideIcons from "lucide-react";
 import React from 'react';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 // Mappers for icons - to be defined based on actual string values from Contentful
 const iconMap: { [key: string]: React.ElementType } = {
