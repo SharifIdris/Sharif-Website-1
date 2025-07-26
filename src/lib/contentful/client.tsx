@@ -18,6 +18,8 @@ const iconMap: { [key: string]: React.ElementType } = {
     ShieldCheck: LucideIcons.ShieldCheck,
     Award: LucideIcons.Award,
     DatabaseZap: LucideIcons.DatabaseZap,
+    LayoutDashboard: LucideIcons.LayoutDashboard,
+    Cpu: LucideIcons.Cpu,
     default: LucideIcons.Briefcase, // Fallback icon
 };
 
@@ -50,9 +52,10 @@ const getIcon = (iconName: string | undefined): React.ReactNode => {
     if (['Award', 'ShieldCheck', 'DatabaseZap'].includes(iconName || '')) {
          return <IconComponent className="h-12 w-12 text-primary drop-shadow-glow-primary" />;
     }
-     if (['Briefcase', 'Bot', 'BarChart3'].includes(iconName || '')) {
+     if (['Briefcase', 'Bot', 'BarChart3', 'LayoutDashboard', 'Cpu'].includes(iconName || '')) {
          return <IconComponent className="h-8 w-8 text-accent" />;
     }
+    // Default styling for service icons
     return <IconComponent className="h-16 w-16 text-primary drop-shadow-glow-primary" />;
 };
 
@@ -178,7 +181,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'Testimonial' });
+        const entries = await client.getEntries({ content_type: 'testimonial' });
         return entries.items.map((item: any) => ({
             name: item.fields.name as string || '',
             title: item.fields.title as string || '',
