@@ -53,6 +53,19 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
           title: "Aspiring Cybersecurity & Data Science Pro"
       }
   ]
+  
+  const backContent = `I’m Angole Sharif Abubakar — a Certified Virtual Assistant and AI Tools Expert with a strong passion for digital efficiency, productivity, and tech-powered problem solving. I help individuals and businesses work smarter by combining human-centered support with powerful tools like Notion, ChatGPT, Trello, Canva, and Google Workspace.
+
+What sets me apart is my unique blend of administrative precision, AI fluency, and technical curiosity. I’m not only experienced in managing virtual operations, but also actively building my foundation in the world of cybersecurity and data science.
+
+I’m currently studying Computer Science at Busitema University, while enrolled in professional tracks with ALX Africa (Cybersecurity & Data Science) and CISCO’s Ethical Hacking program. This learning journey is part of a bigger mission.
+
+My long-term vision is clear: to evolve into a Data Scientist enriched with cybersecurity expertise — someone who can protect digital systems, analyze complex data, and drive intelligent, secure decision-making across industries.
+
+Currently, my work as a Virtual Assistant enables me to live out my passion every day by solving problems, staying organized, automating tasks, and supporting the businesses of tomorrow.
+
+Let’s connect if you’re hiring, collaborating, or passionate about technology, security, or AI-powered productivity.`;
+
 
   return (
     <section id="about" className="relative overflow-hidden bg-background py-24 sm:py-32">
@@ -136,24 +149,12 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
 
                         {/* Back of the card */}
                         <div className="absolute inset-0 flex flex-col rounded-lg bg-card/95 p-4 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
-                            <h3 className="text-center font-headline text-lg font-bold text-primary drop-shadow-glow-primary">
-                                More About Me
+                           <h3 className="text-center font-headline text-lg font-bold text-primary drop-shadow-glow-primary mb-2">
+                                About Me
                             </h3>
-                            <Accordion type="single" collapsible className="w-full mt-2">
-                                {headlines.map((item, index) => (
-                                    <AccordionItem value={`item-${index}`} key={item.title}>
-                                        <AccordionTrigger className="text-left hover:no-underline">
-                                            <div className="flex items-center gap-2">
-                                                {item.icon}
-                                                <span className="font-semibold text-foreground/90 text-sm">{item.title}</span>
-                                            </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="text-sm text-foreground/80 px-2">
-                                            {fullBio}
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                ))}
-                            </Accordion>
+                            <p className="text-sm text-foreground/80 whitespace-pre-wrap">
+                                {backContent}
+                            </p>
                         </div>
                     </Card>
                 </div>
@@ -163,5 +164,3 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
     </section>
   );
 }
-
-    
