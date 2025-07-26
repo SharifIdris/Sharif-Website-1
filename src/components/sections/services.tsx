@@ -113,9 +113,9 @@ export default function Services() {
                 </div>
 
                 {/* Back of the card */}
-                <CardContent className="absolute inset-0 flex flex-col justify-center rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                   <h3 className="font-headline text-xl font-bold text-primary text-center mb-2">{category.title}</h3>
-                   <p className="text-sm text-foreground/70 text-center mb-4">{category.subtitle}</p>
+                <div className="absolute inset-0 flex flex-col justify-center rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                   <h3 className="font-headline text-xl font-bold text-primary text-center mb-2 flex-shrink-0">{category.title}</h3>
+                   <p className="text-sm text-foreground/70 text-center mb-4 flex-shrink-0">{category.subtitle}</p>
                    <ul className="space-y-2 text-left">
                     {category.items.map((item) => (
                       <li key={item} className="flex items-start">
@@ -124,7 +124,7 @@ export default function Services() {
                       </li>
                     ))}
                   </ul>
-                </CardContent>
+                </div>
               </Card>
             </div>
           ))}
