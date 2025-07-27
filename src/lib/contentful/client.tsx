@@ -186,11 +186,11 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     const client = getContentfulClient();
     if (!client) return [];
     try {
-        const entries = await client.getEntries({ content_type: 'testimonial' });
+        const entries = await client.getEntries({ content_type: 'testimonialEntry' });
         return entries.items.map((item: any) => ({
             name: item.fields.name as string || '',
             title: item.fields.title as string || '',
-            quote: item.fields.quote as string || '',
+            quote: item.fields.quote || null,
             avatarUrl: getAssetUrl(item.fields.avatar, 'https://placehold.co/100x100.png'),
             avatarHint: (item.fields.name as string || '').split(' ')[0].toLowerCase() + " portrait",
         }));

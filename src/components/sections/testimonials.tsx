@@ -5,6 +5,7 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import { getTestimonials } from "@/lib/contentful/client";
 import { Testimonial } from "@/content/testimonials";
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 const renderStars = (rating: number) => {
     const stars = [];
@@ -36,7 +37,7 @@ export default async function Testimonials() {
           {testimonials.map((testimonial) => (
             <Card key={testimonial.name} className="flex flex-col transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
                 <CardContent className="flex flex-grow flex-col justify-between p-6">
-                    <blockquote className="text-foreground/80 italic">"{testimonial.quote}"</blockquote>
+                    <blockquote className="text-foreground/80 italic">"{testimonial.quote ? documentToReactComponents(testimonial.quote) : ''}"</blockquote>
                     <div className="mt-6 flex items-center gap-4">
                         <Avatar className="h-12 w-12 border-2 border-primary/50">
                             <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
