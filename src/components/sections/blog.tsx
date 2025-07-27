@@ -14,15 +14,15 @@ import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 
 const richTextOptions = {
   renderNode: {
-    [BLOCKS.HEADING_1]: (node: any, children: any) => <h1 className="text-3xl font-bold mt-8 mb-4 text-primary">{children}</h1>,
-    [BLOCKS.HEADING_2]: (node: any, children: any) => <h2 className="text-2xl font-bold mt-6 mb-3 text-primary">{children}</h2>,
-    [BLOCKS.HEADING_3]: (node: any, children: any) => <h3 className="text-xl font-bold mt-4 mb-2 text-primary">{children}</h3>,
-    [BLOCKS.PARAGRAPH]: (node: any, children: any) => <p className="mb-4 leading-relaxed">{children}</p>,
-    [BLOCKS.UL_LIST]: (node: any, children: any) => <ul className="list-disc list-inside mb-4 pl-4">{children}</ul>,
-    [BLOCKS.OL_LIST]: (node: any, children: any) => <ol className="list-decimal list-inside mb-4 pl-4">{children}</ol>,
-    [BLOCKS.LIST_ITEM]: (node: any, children: any) => <li className="mb-2">{children}</li>,
-    [BLOCKS.QUOTE]: (node: any, children: any) => <blockquote className="border-l-4 border-accent pl-4 italic my-4">{children}</blockquote>,
-    [INLINES.HYPERLINK]: (node: any, children: any) => <a href={node.data.uri} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">{children}</a>,
+    [BLOCKS.HEADING_1]: (node: any, children: any) => <h1 className="text-3xl font-bold mt-8 mb-4 font-headline text-primary drop-shadow-glow-primary">{children}</h1>,
+    [BLOCKS.HEADING_2]: (node: any, children: any) => <h2 className="text-2xl font-bold mt-6 mb-3 font-headline text-primary">{children}</h2>,
+    [BLOCKS.HEADING_3]: (node: any, children: any) => <h3 className="text-xl font-bold mt-4 mb-2 font-headline text-primary">{children}</h3>,
+    [BLOCKS.PARAGRAPH]: (node: any, children: any) => <p className="mb-4 leading-relaxed text-foreground/80">{children}</p>,
+    [BLOCKS.UL_LIST]: (node: any, children: any) => <ul className="list-disc list-inside mb-4 pl-4 space-y-2 text-foreground/80">{children}</ul>,
+    [BLOCKS.OL_LIST]: (node: any, children: any) => <ol className="list-decimal list-inside mb-4 pl-4 space-y-2 text-foreground/80">{children}</ol>,
+    [BLOCKS.LIST_ITEM]: (node: any, children: any) => <li>{children}</li>,
+    [BLOCKS.QUOTE]: (node: any, children: any) => <blockquote className="border-l-4 border-accent pl-4 italic my-4 text-foreground/90">{children}</blockquote>,
+    [INLINES.HYPERLINK]: (node: any, children: any) => <a href={node.data.uri} className="text-primary underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">{children}</a>,
   },
 };
 
@@ -54,7 +54,7 @@ const BlogPostDialog = ({ post }: { post: BlogPost }) => {
               <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary">{tag}</Badge>
             ))}
           </div>
-          <div className="prose prose-invert max-w-none text-foreground/80">
+          <div className="prose prose-invert max-w-none">
             {post.content ? documentToReactComponents(post.content, richTextOptions) : <p>{post.excerpt}</p>}
           </div>
         </div>
@@ -96,16 +96,13 @@ export default function Blog({ blogPosts }: BlogProps) {
                   </CardHeader>
                   <CardContent className="p-6 flex-grow">
                     <CardTitle className="font-headline text-xl text-primary">{post.title}</CardTitle>
-                     <CardDescription className="text-foreground/80 mt-2 line-clamp-2">
-                       {post.excerpt}
-                    </CardDescription>
-                  </CardContent>
-                  <CardFooter className="mt-auto flex justify-between items-center px-6 pb-6">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="mt-2 flex flex-wrap gap-2">
                         {post.tags.map((tag) => (
                         <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary">{tag}</Badge>
                         ))}
                     </div>
+                  </CardContent>
+                  <CardFooter className="mt-auto flex justify-end items-center px-6 pb-6">
                     <Button variant="link" className="p-0 text-primary">
                         Read More
                     </Button>
