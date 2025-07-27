@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/header';
 import Hero from '@/components/sections/hero';
 import Services from '@/components/sections/services';
@@ -6,13 +7,12 @@ import Projects from '@/components/sections/projects';
 import Certifications from '@/components/sections/certifications';
 import Testimonials from '@/components/sections/testimonials';
 import Blog from '@/components/sections/blog';
-import { getBlogPosts, getCertifications, getProjectCategories, getServiceCategories, getSkillCategories, getTestimonials, getHeroData } from '@/lib/contentful/client';
+import { getBlogPosts, getCertifications, getProjectCategories, getSkillCategories, getTestimonials, getHeroData } from '@/lib/contentful/client';
 import Footer from '@/components/layout/footer';
 
 export default async function Home() {
   const [
     heroData,
-    serviceCategories,
     skillCategories,
     projectCategories,
     certifications,
@@ -20,7 +20,6 @@ export default async function Home() {
     blogPosts
   ] = await Promise.all([
     getHeroData(),
-    getServiceCategories(),
     getSkillCategories(),
     getProjectCategories(),
     getCertifications(),
