@@ -48,7 +48,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
               >
                 {/* Front of the card */}
                 <div 
-                    className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center text-center [backface-visibility:hidden] overflow-hidden rounded-lg"
+                    className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center text-center [backface-visibility:hidden] overflow-hidden rounded-lg drop-shadow-glow-primary"
                     onClick={() => handleCardClick(index)}
                 >
                     <Image 
@@ -89,4 +89,3 @@ export default function Certifications({ certifications }: CertificationsProps) 
     </section>
   );
 }
-
