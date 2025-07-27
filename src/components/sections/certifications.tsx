@@ -50,7 +50,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 group">
                 <div className="p-1">
                    <div
-                    className="relative h-64 w-full [perspective:1000px] transition-transform duration-300 ease-in-out group-hover:scale-105"
+                    className="relative h-72 w-full [perspective:1000px] transition-transform duration-300 ease-in-out group-hover:scale-105"
                     >
                     <div
                         className={cn(
