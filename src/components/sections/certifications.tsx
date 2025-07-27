@@ -38,8 +38,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
           {displayedCertifications.map((cert, index) => (
             <div
               key={index}
-              className="relative h-64 w-full cursor-pointer group"
-              onClick={() => handleCardClick(index)}
+              className="relative h-64 w-full group"
             >
               <Card
                 className={cn(
@@ -48,7 +47,10 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 )}
               >
                 {/* Front of the card */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center [backface-visibility:hidden] overflow-hidden rounded-lg">
+                <div 
+                    className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center p-6 text-center [backface-visibility:hidden] overflow-hidden rounded-lg"
+                    onClick={() => handleCardClick(index)}
+                >
                     <Image 
                         src={cert.imageUrl} 
                         alt={cert.name}
@@ -65,7 +67,10 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 </div>
 
                 {/* Back of the card */}
-                <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                <div
+                  className="absolute inset-0 flex cursor-pointer flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto"
+                  onClick={() => handleCardClick(index)}
+                >
                    <h3 className="font-headline text-lg font-bold text-primary text-center mb-2">{cert.name}</h3>
                     <ul className="space-y-2 text-left">
                         {cert.description.split('\\n').map((item, i) => (

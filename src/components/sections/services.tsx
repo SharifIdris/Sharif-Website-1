@@ -96,8 +96,7 @@ export default function Services() {
           {serviceCategories.map((category, index) => (
              <div
               key={index}
-              className="relative h-96 w-full cursor-pointer group"
-              onClick={() => handleCardClick(index)}
+              className="relative h-96 w-full group"
             >
               <Card
                 className={cn(
@@ -106,14 +105,20 @@ export default function Services() {
                 )}
               >
                 {/* Front of the card */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center [backface-visibility:hidden]">
+                <div
+                  className="absolute inset-0 flex cursor-pointer flex-col items-center justify-center p-6 text-center [backface-visibility:hidden]"
+                  onClick={() => handleCardClick(index)}
+                >
                   {category.icon}
                   <h3 className="mt-4 font-headline text-2xl font-bold text-primary">{category.title}</h3>
                    <p className="mt-auto text-xs text-foreground/60 w-full">Click to see details</p>
                 </div>
 
                 {/* Back of the card */}
-                <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                <div
+                  className="absolute inset-0 flex cursor-pointer flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto"
+                  onClick={() => handleCardClick(index)}
+                >
                    <h3 className="font-headline text-xl font-bold text-primary text-center mb-2 flex-shrink-0">{category.title}</h3>
                    <p className="text-sm text-foreground/70 text-center mb-4 flex-shrink-0">{category.subtitle}</p>
                    <ul className="space-y-2 text-left">
@@ -133,3 +138,4 @@ export default function Services() {
     </section>
   );
 }
+
