@@ -38,11 +38,11 @@ export default function Certifications({ certifications }: CertificationsProps) 
           {displayedCertifications.map((cert, index) => (
             <div
               key={index}
-              className="relative h-64 w-full group"
+              className="relative h-64 w-full"
             >
               <Card
                 className={cn(
-                  "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d] group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20",
+                  "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d]",
                   flippedCard === index && "[transform:rotateY(180deg)]"
                 )}
               >
