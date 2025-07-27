@@ -113,7 +113,7 @@ export default function Services() {
                 </div>
 
                 {/* Back of the card */}
-                <div className="absolute inset-0 flex flex-col justify-center rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
+                <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
                    <h3 className="font-headline text-xl font-bold text-primary text-center mb-2 flex-shrink-0">{category.title}</h3>
                    <p className="text-sm text-foreground/70 text-center mb-4 flex-shrink-0">{category.subtitle}</p>
                    <ul className="space-y-2 text-left">
