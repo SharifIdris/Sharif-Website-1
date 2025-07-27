@@ -6,6 +6,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent }
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import { BlogPost } from "@/content/blog-posts";
@@ -65,7 +72,6 @@ const BlogPostDialog = ({ post }: { post: BlogPost }) => {
 
 
 export default function Blog({ blogPosts }: BlogProps) {
-  const recentPosts = blogPosts.slice(0, 3);
 
   return (
     <section id="blog" className="py-24 sm:py-32">
@@ -78,40 +84,53 @@ export default function Blog({ blogPosts }: BlogProps) {
             Sharing insights on AI, cybersecurity, product development, and more.
           </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-          {recentPosts.map((post) => (
-            <Dialog key={post.title}>
-              <DialogTrigger asChild>
-                <Card className="flex cursor-pointer flex-col transform-gpu overflow-hidden border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
-                  <CardHeader className="p-0">
-                    <Image 
-                        src={post.imageUrl} 
-                        alt={post.title}
-                        data-ai-hint={post.imageHint}
-                        width={600}
-                        height={400}
-                        className="w-full h-48 object-cover"
-                    />
-                  </CardHeader>
-                  <CardContent className="p-6 flex-grow">
-                    <CardTitle className="font-headline text-xl text-primary">{post.title}</CardTitle>
-                     <div className="mt-2 flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary">{tag}</Badge>
-                        ))}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="mt-auto flex justify-end items-center px-6 pb-6">
-                    <Button variant="link" className="p-0 text-primary">
-                        Read More
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </DialogTrigger>
-              <BlogPostDialog post={post} />
-            </Dialog>
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="mx-auto mt-16 w-full max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-4xl"
+        >
+          <CarouselContent>
+          {blogPosts.map((post) => (
+            <CarouselItem key={post.title} className="md:basis-1/2 lg:basis-1/3">
+              <div className="p-1">
+                <Dialog>
+                <DialogTrigger asChild>
+                  <Card className="flex h-full cursor-pointer flex-col transform-gpu overflow-hidden border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
+                    <CardHeader className="p-0">
+                      <Image 
+                          src={post.imageUrl} 
+                          alt={post.title}
+                          data-ai-hint={post.imageHint}
+                          width={600}
+                          height={400}
+                          className="w-full h-48 object-cover"
+                      />
+                    </CardHeader>
+                    <CardContent className="p-6 flex-grow">
+                      <CardTitle className="font-headline text-xl text-primary">{post.title}</CardTitle>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                          {post.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary">{tag}</Badge>
+                          ))}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="mt-auto flex justify-end items-center px-6 pb-6">
+                      <Button variant="link" className="p-0 text-primary">
+                          Read More
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </DialogTrigger>
+                <BlogPostDialog post={post} />
+                </Dialog>
+              </div>
+            </CarouselItem>
           ))}
-        </div>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
     </section>
   );

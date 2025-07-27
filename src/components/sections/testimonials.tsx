@@ -6,6 +6,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, MessageSquarePlus, Loader2, Send, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -273,30 +280,43 @@ export default function Testimonials() {
             Trusted by founders, CEOs, and marketing leaders.
           </p>
         </div>
-        <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.name} className="flex flex-col transform-gpu border-border/70 bg-card/50">
-                <CardContent className="flex flex-grow flex-col justify-between p-6">
-                    <div className="flex-grow">
-                         <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
-                    </div>
-                    <div className="mt-6 flex items-center gap-4">
-                        <Avatar className="h-12 w-12 border-2 border-primary/50">
-                            <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
-                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="font-semibold text-primary">{testimonial.name}</p>
-                            <p className="text-sm text-foreground/70">{testimonial.title}</p>
-                        </div>
-                    </div>
-                     <div className="mt-4 flex">
-                        {renderStars(5)}
-                    </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="mx-auto mt-16 w-full max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-4xl"
+        >
+          <CarouselContent>
+            {testimonials.map((testimonial) => (
+              <CarouselItem key={testimonial.name} className="md:basis-1/2 lg:basis-1/3">
+                 <div className="p-1">
+                    <Card className="flex h-full flex-col transform-gpu border-border/70 bg-card/50">
+                        <CardContent className="flex flex-grow flex-col justify-between p-6">
+                            <div className="flex-grow">
+                                <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
+                            </div>
+                            <div className="mt-6 flex items-center gap-4">
+                                <Avatar className="h-12 w-12 border-2 border-primary/50">
+                                    <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
+                                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold text-primary">{testimonial.name}</p>
+                                    <p className="text-sm text-foreground/70">{testimonial.title}</p>
+                                </div>
+                            </div>
+                            <div className="mt-4 flex">
+                                {renderStars(5)}
+                            </div>
+                    </CardContent>
+                    </Card>
+                 </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
         <div className="mt-12 text-center">
             <TestimonialDialog />
         </div>
@@ -304,5 +324,3 @@ export default function Testimonials() {
     </section>
   );
 }
-
-    
