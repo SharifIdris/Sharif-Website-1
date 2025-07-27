@@ -73,7 +73,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 >
                    <h3 className="font-headline text-lg font-bold text-primary text-center mb-2">{cert.name}</h3>
                     <ul className="space-y-2 text-left">
-                        {cert.description.split('\\n').map((item, i) => (
+                        {cert.description.split('\n').map((item, i) => (
                         <li key={i} className="flex items-start">
                             <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-accent" />
                             <span className="text-sm text-foreground/80">{item}</span>
