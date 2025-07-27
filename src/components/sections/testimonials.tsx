@@ -2,22 +2,40 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
-import Image from "next/image";
-import { getTestimonials } from "@/lib/contentful/client";
-import { Testimonial } from "@/content/testimonials";
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+
+const testimonials = [
+    {
+      name: "Okello Ivan",
+      title: "Senior Entrepreneur",
+      quote: "Working with Sharif has been an absolute game-changer. His ability to blend technical precision with creative problem-solving consistently elevates every project. Whether it’s streamlining workflows with AI tools or crafting intuitive digital solutions, his dedication and adaptability shine through. A true asset to any team.",
+      avatarUrl: "https://images.ctfassets.net/hk8kaeaoi9ri/7aNc1DiVTRr4ULiyoN4uBi/04a3981a12a166ac6c0de166337a6d10/Agentic.jpeg",
+      avatarHint: "okello portrait",
+    },
+     {
+      name: "Joan Karungi",
+      title: "Founder, Afro-Designs",
+      quote: "Sharif's virtual assistance was pivotal in organizing our digital workspace. His mastery of Notion and Google Workspace brought much-needed structure to our team, improving our productivity tenfold. He's reliable, proactive, and a pleasure to work with.",
+      avatarUrl: "https://placehold.co/100x100.png",
+      avatarHint: "joan portrait",
+    },
+     {
+      name: "David L.",
+      title: "Tech Startup CEO",
+      quote: "The MVP Sharif developed for us was delivered incredibly fast and was exactly what we needed to secure our first round of funding. His AI-powered approach to development is both innovative and efficient.",
+      avatarUrl: "https://placehold.co/100x100.png",
+      avatarHint: "david portrait",
+    }
+];
 
 const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < rating; i++) {
-        stars.push(<Star key={i} className="h-5 w-5 fill-accent text-accent" />);
+        stars.push(<Star key={i} className="h-4 w-4 fill-accent text-accent" />);
     }
     return stars;
 };
 
-export default async function Testimonials() {
-  const testimonials: Testimonial[] = await getTestimonials();
-  
+export default function Testimonials() {
   if (!testimonials || testimonials.length === 0) {
     return null; // Don't render the section if there are no testimonials
   }
@@ -37,15 +55,17 @@ export default async function Testimonials() {
           {testimonials.map((testimonial) => (
             <Card key={testimonial.name} className="flex flex-col transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
                 <CardContent className="flex flex-grow flex-col justify-between p-6">
-                    <blockquote className="text-foreground/80 italic">"{testimonial.quote ? documentToReactComponents(testimonial.quote) : ''}"</blockquote>
+                    <div className="flex-grow">
+                         <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
+                    </div>
                     <div className="mt-6 flex items-center gap-4">
-                        <Avatar className="h-12 w-12 border-2 border-primary/50">
+                        <Avatar className="h-10 w-10 border-2 border-primary/50">
                             <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
                             <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <p className="font-semibold text-primary">{testimonial.name}</p>
-                            <p className="text-sm text-foreground/70">{testimonial.title}</p>
+                            <p className="font-semibold text-primary text-sm">{testimonial.name}</p>
+                            <p className="text-xs text-foreground/70">{testimonial.title}</p>
                         </div>
                     </div>
                      <div className="mt-4 flex">
