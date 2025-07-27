@@ -65,7 +65,6 @@ const BlogPostDialog = ({ post }: { post: BlogPost }) => {
 
 
 export default function Blog({ blogPosts }: BlogProps) {
-  // Display only the 3 most recent posts
   const recentPosts = blogPosts.slice(0, 3);
 
   return (
@@ -96,7 +95,7 @@ export default function Blog({ blogPosts }: BlogProps) {
                   </CardHeader>
                   <CardContent className="p-6 flex-grow">
                     <CardTitle className="font-headline text-xl text-primary">{post.title}</CardTitle>
-                    <div className="mt-2 flex flex-wrap gap-2">
+                     <div className="mt-2 flex flex-wrap gap-2">
                         {post.tags.map((tag) => (
                         <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary">{tag}</Badge>
                         ))}
