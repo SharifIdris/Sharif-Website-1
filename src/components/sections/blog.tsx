@@ -80,7 +80,6 @@ export default function Blog({ blogPosts }: BlogProps) {
                   </CardHeader>
                   <CardContent className="p-6 flex-grow">
                     <CardTitle className="font-headline text-xl text-primary">{post.title}</CardTitle>
-                    <CardDescription className="pt-2 text-foreground/80">{post.excerpt}</CardDescription>
                   </CardContent>
                   <CardFooter className="mt-auto flex justify-between items-center px-6 pb-6">
                     <div className="flex flex-wrap gap-2">
