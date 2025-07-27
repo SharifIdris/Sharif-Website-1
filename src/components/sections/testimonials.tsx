@@ -36,6 +36,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 
 // This is the same Formspree endpoint from your contact form.
@@ -50,6 +51,7 @@ const testimonials = [
       quote: "Working with Sharif has been an absolute game-changer. His ability to blend technical precision with creative problem-solving consistently elevates every project. Whether it’s streamlining workflows with AI tools or crafting intuitive digital solutions, his dedication and adaptability shine through. A true asset to any team.",
       avatarUrl: "https://images.ctfassets.net/hk8kaeaoi9ri/7aNc1DiVTRr4ULiyoN4uBi/04a3981a12a166ac6c0de166337a6d10/Agentic.jpeg",
       avatarHint: "okello portrait",
+      rating: 5,
     },
      {
       name: "Joan Karungi",
@@ -57,6 +59,7 @@ const testimonials = [
       quote: "Sharif's virtual assistance was pivotal in organizing our digital workspace. His mastery of Notion and Google Workspace brought much-needed structure to our team, improving our productivity tenfold. He's reliable, proactive, and a pleasure to work with.",
       avatarUrl: "https://placehold.co/100x100.png",
       avatarHint: "joan portrait",
+      rating: 5,
     },
      {
       name: "David L.",
@@ -64,13 +67,14 @@ const testimonials = [
       quote: "The MVP Sharif developed for us was delivered incredibly fast and was exactly what we needed to secure our first round of funding. His AI-powered approach to development is both innovative and efficient.",
       avatarUrl: "https://placehold.co/100x100.png",
       avatarHint: "david portrait",
+      rating: 5,
     }
 ];
 
 const renderStars = (rating: number) => {
     const stars = [];
-    for (let i = 0; i < rating; i++) {
-        stars.push(<Star key={i} className="h-4 w-4 fill-accent text-accent" />);
+    for (let i = 0; i < 5; i++) {
+        stars.push(<Star key={i} className={cn("h-4 w-4", i < rating ? "fill-accent text-accent" : "text-muted-foreground")} />);
     }
     return stars;
 };
@@ -82,7 +86,8 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 const testimonialFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   title: z.string().min(2, "Title or Company must be at least 2 characters."),
-  quote: z.string().min(10, "Testimonial must be at least 10 characters."),
+  quote: z.string().min(10, "Testimonial must be at least 10 characters.").max(300, "Testimonial cannot exceed 300 characters."),
+  rating: z.number().min(1, "Please select a rating.").max(5),
   avatar: z
     .any()
     .refine((files) => files?.length <= 1, "Only one image is allowed.")
@@ -106,6 +111,7 @@ const TestimonialDialog = () => {
             name: "",
             title: "",
             quote: "",
+            rating: 0,
         },
     });
 
@@ -115,6 +121,7 @@ const TestimonialDialog = () => {
         formData.append("name", values.name);
         formData.append("title", values.title);
         formData.append("quote", values.quote);
+        formData.append("rating", values.rating.toString());
         if (values.avatar && values.avatar.length > 0) {
             formData.append("avatar", values.avatar[0]);
         }
@@ -217,8 +224,38 @@ const TestimonialDialog = () => {
                                             placeholder="Share your thoughts on our collaboration..."
                                             className="min-h-[100px]"
                                             {...field}
+                                            maxLength={300}
                                             disabled={isLoading}
                                         />
+                                    </FormControl>
+                                     <div className="text-right text-xs text-muted-foreground">
+                                        {field.value.length} / 300
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="rating"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Your Rating</FormLabel>
+                                    <FormControl>
+                                        <div className="flex items-center gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <Star
+                                                    key={star}
+                                                    className={cn(
+                                                        "h-6 w-6 cursor-pointer transition-colors",
+                                                        field.value >= star
+                                                            ? "text-accent fill-accent"
+                                                            : "text-muted-foreground"
+                                                    )}
+                                                    onClick={() => field.onChange(star)}
+                                                />
+                                            ))}
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -289,24 +326,26 @@ export default function Testimonials() {
           <CarouselContent>
             {testimonials.map((testimonial) => (
               <CarouselItem key={testimonial.name} className="md:basis-1/2 lg:basis-1/3">
-                 <div className="p-1">
+                 <div className="p-1 h-full">
                     <Card className="flex h-full flex-col transform-gpu border-border/70 bg-card/50">
                         <CardContent className="flex flex-grow flex-col justify-between p-6">
                             <div className="flex-grow">
                                 <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
                             </div>
-                            <div className="mt-6 flex items-center gap-4">
-                                <Avatar className="h-12 w-12 border-2 border-primary/50">
-                                    <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
-                                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className="font-semibold text-primary">{testimonial.name}</p>
-                                    <p className="text-sm text-foreground/70">{testimonial.title}</p>
+                            <div className="mt-6">
+                                <div className="flex items-center gap-4">
+                                    <Avatar className="h-12 w-12 border-2 border-primary/50">
+                                        <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
+                                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <p className="font-semibold text-primary">{testimonial.name}</p>
+                                        <p className="text-sm text-foreground/70">{testimonial.title}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="mt-4 flex">
-                                {renderStars(5)}
+                                <div className="mt-4 flex">
+                                    {renderStars(testimonial.rating)}
+                                </div>
                             </div>
                     </CardContent>
                     </Card>
@@ -324,3 +363,7 @@ export default function Testimonials() {
     </section>
   );
 }
+
+    
+
+    
