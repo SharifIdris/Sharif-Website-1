@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, MessageSquarePlus, Loader2, Send } from "lucide-react";
+import { Star, MessageSquarePlus, Loader2, Send, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -68,10 +68,23 @@ const renderStars = (rating: number) => {
     return stars;
 };
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+
 const testimonialFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   title: z.string().min(2, "Title or Company must be at least 2 characters."),
   quote: z.string().min(10, "Testimonial must be at least 10 characters."),
+  avatar: z
+    .any()
+    .refine((files) => files?.length <= 1, "Only one image is allowed.")
+    .refine((files) => !files || files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+    .refine(
+      (files) => !files || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      ".jpg, .jpeg, .png and .webp files are accepted."
+    )
+    .optional(),
 });
 
 
@@ -91,28 +104,43 @@ const TestimonialDialog = () => {
 
     async function onSubmit(values: z.infer<typeof testimonialFormSchema>) {
         setIsLoading(true);
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("title", values.title);
+        formData.append("quote", values.quote);
+        if (values.avatar && values.avatar.length > 0) {
+            formData.append("avatar", values.avatar[0]);
+        }
+        formData.append("_subject", `New Testimonial from ${values.name}`);
+
         try {
             const response = await fetch(FORM_ENDPOINT, {
                 method: "POST",
+                body: formData,
                 headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...values,
-                  _subject: `New Testimonial from ${values.name}`,
-                }),
+                  'Accept': 'application/json'
+                }
             });
 
             if (!response.ok) {
-                throw new Error("Form submission failed.");
+                 const errorData = await response.json();
+                 if (errorData.errors && errorData.errors.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
+                     toast({
+                        variant: "destructive",
+                        title: "File Upload Not Supported",
+                        description: "File uploads are not enabled for this form. Please upgrade your Formspree plan to accept files.",
+                    });
+                 } else {
+                    throw new Error("Form submission failed.");
+                 }
+            } else {
+                toast({
+                    title: "Testimonial Submitted!",
+                    description: `Thank you, ${values.name}. Your feedback is valuable to me.`,
+                });
+                form.reset();
+                setIsOpen(false);
             }
-            
-            toast({
-                title: "Testimonial Submitted!",
-                description: `Thank you, ${values.name}. Your feedback is valuable to me.`,
-            });
-            form.reset();
-            setIsOpen(false);
         } catch (error) {
             console.error("Error submitting testimonial:", error);
             toast({
@@ -124,6 +152,7 @@ const TestimonialDialog = () => {
             setIsLoading(false);
         }
     }
+     const fileRef = form.register("avatar");
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -142,32 +171,34 @@ const TestimonialDialog = () => {
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Your Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="e.g., Jane Doe" {...field} disabled={isLoading} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Your Title / Company</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="e.g., CEO at Innovate Inc." {...field} disabled={isLoading} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Your Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="e.g., Jane Doe" {...field} disabled={isLoading} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Your Title / Company</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="e.g., CEO at Innovate Inc." {...field} disabled={isLoading} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                       </div>
                         <FormField
                             control={form.control}
                             name="quote"
@@ -185,6 +216,29 @@ const TestimonialDialog = () => {
                                     <FormMessage />
                                 </FormItem>
                             )}
+                        />
+                         <FormField
+                          control={form.control}
+                          name="avatar"
+                          render={({ field }) => {
+                            return (
+                              <FormItem>
+                                <FormLabel>Profile Picture (Optional)</FormLabel>
+                                <FormControl>
+                                   <div className="relative">
+                                    <Input 
+                                      type="file" 
+                                      {...fileRef}
+                                      className="pl-12"
+                                      disabled={isLoading}
+                                    />
+                                    <Upload className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                   </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            );
+                          }}
                         />
                         <DialogFooter>
                             <Button type="submit" disabled={isLoading} className="w-full">
@@ -221,19 +275,19 @@ export default function Testimonials() {
         </div>
         <div className="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <Card key={testimonial.name} className="flex flex-col transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
+            <Card key={testimonial.name} className="flex flex-col transform-gpu border-border/70 bg-card/50">
                 <CardContent className="flex flex-grow flex-col justify-between p-6">
                     <div className="flex-grow">
                          <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
                     </div>
                     <div className="mt-6 flex items-center gap-4">
-                        <Avatar className="h-10 w-10 border-2 border-primary/50">
+                        <Avatar className="h-12 w-12 border-2 border-primary/50">
                             <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
                             <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <p className="font-semibold text-primary text-sm">{testimonial.name}</p>
-                            <p className="text-xs text-foreground/70">{testimonial.title}</p>
+                            <p className="font-semibold text-primary">{testimonial.name}</p>
+                            <p className="text-sm text-foreground/70">{testimonial.title}</p>
                         </div>
                     </div>
                      <div className="mt-4 flex">
@@ -250,3 +304,5 @@ export default function Testimonials() {
     </section>
   );
 }
+
+    
