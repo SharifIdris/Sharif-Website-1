@@ -1,4 +1,5 @@
-import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+
+import { Github, Linkedin, Twitter, ArrowUp } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ContactForm } from "../contact-form";
@@ -47,8 +48,12 @@ export default function Footer() {
                 </div>
             </div>
         </div>
-        <div className="mt-16 border-t border-border/30 pt-8 text-center text-sm text-foreground/60">
+        <div className="mt-16 border-t border-border/30 pt-8 flex justify-between items-center text-sm text-foreground/60">
           <p>&copy; {new Date().getFullYear()} Angole Sharif Abubakar. All rights reserved.</p>
+           <a href="#about" className="group flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors">
+              Back to Top
+              <ArrowUp className="h-4 w-4 transition-transform group-hover:-translate-y-1" />
+           </a>
         </div>
       </div>
     </footer>

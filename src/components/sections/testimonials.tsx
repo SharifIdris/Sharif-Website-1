@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
@@ -37,7 +38,7 @@ export default async function Testimonials() {
                 <CardContent className="flex flex-grow flex-col justify-between p-6">
                     <blockquote className="text-foreground/80 italic">"{testimonial.quote}"</blockquote>
                     <div className="mt-6 flex items-center gap-4">
-                        <Avatar>
+                        <Avatar className="h-12 w-12 border-2 border-primary/50">
                             <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
                             <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                         </Avatar>

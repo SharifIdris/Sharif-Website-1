@@ -63,8 +63,8 @@ export function ContactForm() {
       }
       
       toast({
-        title: "Message Sent!",
-        description: "Thanks for reaching out. I'll get back to you soon.",
+        title: "Message Sent Successfully!",
+        description: `Thank you, ${values.name}. I've received your message and will get back to you shortly.`,
       });
       form.reset();
     } catch (error) {
