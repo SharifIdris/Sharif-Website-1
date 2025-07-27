@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Certification } from "@/content/certifications";
+import { CheckCircle } from "lucide-react";
 
 
 type CertificationsProps = {
@@ -66,7 +67,14 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 {/* Back of the card */}
                 <div className="absolute inset-0 flex flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto">
                    <h3 className="font-headline text-lg font-bold text-primary text-left mb-2">{cert.name}</h3>
-                   <p className="text-sm text-foreground/80 text-left">{cert.description}</p>
+                    <ul className="space-y-2 text-left">
+                        {cert.description.split('\n').map((item, i) => (
+                        <li key={i} className="flex items-start">
+                            <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-accent" />
+                            <span className="text-sm text-foreground/80">{item}</span>
+                        </li>
+                        ))}
+                    </ul>
                 </div>
               </Card>
             </div>
