@@ -31,7 +31,7 @@ export default async function Home() {
       <main className="flex-1">
         <Hero heroData={heroData} />
         <Services />
-        <Skills />
+        <Skills skillCategories={skillCategories} />
         <Projects projectCategories={projectCategories} />
         <Certifications certifications={certifications} />
         <Testimonials />

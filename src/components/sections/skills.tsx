@@ -1,55 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Briefcase, Bot, BarChart3, ShieldCheck } from "lucide-react";
+import type { SkillCategory } from "@/content/skills";
 
-const skillCategories = [
-    {
-        title: "Virtual Assistance",
-        icon: <Briefcase className="h-8 w-8 text-accent" />,
-        skills: [
-            { name: "Automation & Task Flow", level: 85 },
-            { name: "Content Management", level: 80 },
-            { name: "AI Tools for Assistance", level: 90 },
-            { name: "Data Organization", level: 80 },
-            { name: "Professional Communication", level: 85 },
-        ]
-    },
-    {
-        title: "AI & Development",
-        icon: <Bot className="h-8 w-8 text-accent" />,
-        skills: [
-            { name: "AI Platforms (ChatGPT, Gemini)", level: 90 },
-            { name: "Workflow Automation (n8n, Bolt)", level: 80 },
-            { name: "AI Integration & Debugging", level: 70 },
-            { name: "Local AI Tools (LM Studio)", level: 60 },
-            { name: "Full-Stack Development", level: 75 },
-        ]
-    },
-    {
-        title: "Data Analysis",
-        icon: <BarChart3 className="h-8 w-8 text-accent" />,
-        skills: [
-            { name: "Data Cleaning & Preprocessing", level: 75 },
-            { name: "Data Visualization", level: 65 },
-            { name: "Dashboard Prototyping", level: 65 },
-            { name: "Python for Data Science", level: 65 },
-            { name: "AI-Enhanced Analysis", level: 70 },
-        ]
-    },
-    {
-        title: "Cybersecurity",
-        icon: <ShieldCheck className="h-8 w-8 text-accent" />,
-        skills: [
-            { name: "Security Lifecycle Knowledge", level: 60 },
-            { name: "Recon Tools (Nmap, Wireshark)", level: 60 },
-            { name: "Intro to Exploitation (Metasploit)", level: 50 },
-            { name: "Secure App Practices", level: 70 },
-            { name: "Threat & Vulnerability Awareness", level: 60 },
-        ]
-    }
-];
+type SkillsProps = {
+  skillCategories: SkillCategory[];
+};
 
-export default function Skills() {
+export default function Skills({ skillCategories }: SkillsProps) {
+  if (!skillCategories || skillCategories.length === 0) {
+    return null;
+  }
+  
   return (
     <section id="skills" className="py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
