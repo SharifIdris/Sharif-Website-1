@@ -40,7 +40,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
               key={index}
               className="relative h-64 w-full"
             >
-              <Card
+              <div
                 className={cn(
                   "absolute inset-0 h-full w-full transform-gpu border-border/70 bg-card/50 transition-all duration-700 [transform-style:preserve-3d]",
                   flippedCard === index && "[transform:rotateY(180deg)]"
@@ -81,7 +81,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
                         ))}
                     </ul>
                 </div>
-              </Card>
+              </div>
             </div>
           ))}
         </div>
