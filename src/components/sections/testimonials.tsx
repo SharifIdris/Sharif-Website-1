@@ -1,7 +1,40 @@
 
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star } from "lucide-react";
+import { Star, MessageSquarePlus, Loader2, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+  DialogFooter
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+
+
+// This is the same Formspree endpoint from your contact form.
+// You might want to create a separate one for testimonials later.
+const FORM_ENDPOINT = "https://formspree.io/f/mzzvravr"; 
+
 
 const testimonials = [
     {
@@ -34,6 +67,141 @@ const renderStars = (rating: number) => {
     }
     return stars;
 };
+
+const testimonialFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  title: z.string().min(2, "Title or Company must be at least 2 characters."),
+  quote: z.string().min(10, "Testimonial must be at least 10 characters."),
+});
+
+
+const TestimonialDialog = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const { toast } = useToast();
+
+    const form = useForm<z.infer<typeof testimonialFormSchema>>({
+        resolver: zodResolver(testimonialFormSchema),
+        defaultValues: {
+            name: "",
+            title: "",
+            quote: "",
+        },
+    });
+
+    async function onSubmit(values: z.infer<typeof testimonialFormSchema>) {
+        setIsLoading(true);
+        try {
+            const response = await fetch(FORM_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  ...values,
+                  _subject: `New Testimonial from ${values.name}`,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Form submission failed.");
+            }
+            
+            toast({
+                title: "Testimonial Submitted!",
+                description: `Thank you, ${values.name}. Your feedback is valuable to me.`,
+            });
+            form.reset();
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Error submitting testimonial:", error);
+            toast({
+                variant: "destructive",
+                title: "Submission Error",
+                description: "Failed to send your testimonial. Please try again later.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+                <Button variant="outline" className="group">
+                    Leave a Review
+                    <MessageSquarePlus className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle className="font-headline text-primary drop-shadow-glow-primary">Share Your Experience</DialogTitle>
+                    <DialogDescription>
+                        Your feedback helps me grow and helps others understand my work.
+                    </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Your Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g., Jane Doe" {...field} disabled={isLoading} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Your Title / Company</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g., CEO at Innovate Inc." {...field} disabled={isLoading} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="quote"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Testimonial</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Share your thoughts on our collaboration..."
+                                            className="min-h-[100px]"
+                                            {...field}
+                                            disabled={isLoading}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <DialogFooter>
+                            <Button type="submit" disabled={isLoading} className="w-full">
+                                {isLoading ? (
+                                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...</>
+                                ) : (
+                                    <><Send className="mr-2 h-4 w-4" /> Submit Review</>
+                                )}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 
 export default function Testimonials() {
   if (!testimonials || testimonials.length === 0) {
@@ -74,6 +242,9 @@ export default function Testimonials() {
               </CardContent>
             </Card>
           ))}
+        </div>
+        <div className="mt-12 text-center">
+            <TestimonialDialog />
         </div>
       </div>
     </section>
