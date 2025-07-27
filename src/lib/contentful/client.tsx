@@ -100,6 +100,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
             tags: item.fields.tags || [],
             imageUrl: getAssetUrl(item.fields.image, 'https://placehold.co/600x400.png'),
             imageHint: (item.fields.title || "blog post").toLowerCase().split(' ').slice(0,2).join(' '),
+            content: item.fields.content || null,
         }));
     } catch (error) {
         return handleFetchError(error, 'blog posts');
