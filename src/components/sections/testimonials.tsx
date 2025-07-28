@@ -67,7 +67,7 @@ const testimonialFormSchema = z.object({
     .refine((files) => files?.length <= 1, "Only one image is allowed.")
     .refine((files) => !files || files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
     .refine(
-      (files) => !files || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      (files) => !files || files?.[0]?.type === "" || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       ".jpg, .jpeg, .png and .webp files are accepted."
     )
     .optional(),
@@ -86,6 +86,7 @@ const TestimonialDialog = () => {
             title: "",
             quote: "",
             rating: 0,
+            avatar: undefined,
         },
     });
 
@@ -119,14 +120,18 @@ const TestimonialDialog = () => {
                 setIsOpen(false);
             } else {
                  const errorData = await response.json().catch(() => null);
-                 if (errorData && errorData.errors && errorData.errors.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
+                 if (errorData?.errors?.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
                      toast({
                         variant: "destructive",
                         title: "File Upload Not Supported",
-                        description: "File uploads are not enabled for this form. Please upgrade your Formspree plan to accept files.",
+                        description: "File uploads are not enabled on the current Formspree plan for this form.",
                     });
                  } else {
-                    throw new Error("Form submission failed.");
+                    toast({
+                        variant: "destructive",
+                        title: "Submission Error",
+                        description: "Failed to send your testimonial. Please try again later.",
+                    });
                  }
             }
         } catch (error) {
@@ -203,7 +208,7 @@ const TestimonialDialog = () => {
                                         />
                                     </FormControl>
                                      <div className="text-right text-xs text-muted-foreground">
-                                        {field.value.length} / 300
+                                        {field.value?.length || 0} / 300
                                     </div>
                                     <FormMessage />
                                 </FormItem>
@@ -249,6 +254,7 @@ const TestimonialDialog = () => {
                                       {...fileRef}
                                       className="pl-12"
                                       disabled={isLoading}
+                                      accept="image/png, image/jpeg, image/webp"
                                     />
                                     <Upload className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                    </div>
@@ -354,3 +360,5 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
     </section>
   );
 }
+
+    
