@@ -9,7 +9,7 @@ import type { Testimonial } from "@/content/testimonials";
 import type { HeroData } from "@/content/hero";
 import * as LucideIcons from "lucide-react";
 import React from 'react';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 // Mappers for icons - to be defined based on actual string values from Contentful
 const iconMap: { [key: string]: React.ElementType } = {
@@ -22,6 +22,7 @@ const iconMap: { [key: string]: React.ElementType } = {
     DatabaseZap: LucideIcons.DatabaseZap,
     LayoutDashboard: LucideIcons.LayoutDashboard,
     Cpu: LucideIcons.Cpu,
+    Heart: LucideIcons.Heart, // Added for Soft Skills
     default: LucideIcons.Briefcase, // Fallback icon
 };
 
@@ -54,7 +55,7 @@ const getIcon = (iconName: string | undefined): React.ReactNode => {
     if (['Award', 'ShieldCheck', 'DatabaseZap'].includes(iconName || '')) {
          return <IconComponent className="h-12 w-12 text-primary drop-shadow-glow-primary" />;
     }
-     if (['Briefcase', 'Bot', 'BarChart3', 'LayoutDashboard', 'Cpu'].includes(iconName || '')) {
+     if (['Briefcase', 'Bot', 'BarChart3', 'LayoutDashboard', 'Cpu', 'Heart', 'Code'].includes(iconName || '')) {
          return <IconComponent className="h-8 w-8 text-accent" />;
     }
     // Default styling for service icons
