@@ -37,39 +37,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import type { Testimonial } from "@/content/testimonials";
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 
 // This is the same Formspree endpoint from your contact form.
 // You might want to create a separate one for testimonials later.
 const FORM_ENDPOINT = "https://formspree.io/f/mzzvravr"; 
 
-
-const testimonials = [
-    {
-      name: "Okello Ivan",
-      title: "Senior Entrepreneur",
-      quote: "Working with Sharif has been an absolute game-changer. His ability to blend technical precision with creative problem-solving consistently elevates every project. Whether it’s streamlining workflows with AI tools or crafting intuitive digital solutions, his dedication and adaptability shine through. A true asset to any team.",
-      avatarUrl: "https://images.ctfassets.net/hk8kaeaoi9ri/7aNc1DiVTRr4ULiyoN4uBi/04a3981a12a166ac6c0de166337a6d10/Agentic.jpeg",
-      avatarHint: "okello portrait",
-      rating: 5,
-    },
-     {
-      name: "Joan Karungi",
-      title: "Founder, Afro-Designs",
-      quote: "Sharif's virtual assistance was pivotal in organizing our digital workspace. His mastery of Notion and Google Workspace brought much-needed structure to our team, improving our productivity tenfold. He's reliable, proactive, and a pleasure to work with.",
-      avatarUrl: "https://placehold.co/100x100.png",
-      avatarHint: "joan portrait",
-      rating: 5,
-    },
-     {
-      name: "David L.",
-      title: "Tech Startup CEO",
-      quote: "The MVP Sharif developed for us was delivered incredibly fast and was exactly what we needed to secure our first round of funding. His AI-powered approach to development is both innovative and efficient.",
-      avatarUrl: "https://placehold.co/100x100.png",
-      avatarHint: "david portrait",
-      rating: 5,
-    }
-];
 
 const renderStars = (rating: number) => {
     const stars = [];
@@ -300,10 +275,27 @@ const TestimonialDialog = () => {
     );
 };
 
+type TestimonialsProps = {
+    testimonials: Testimonial[];
+}
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials }: TestimonialsProps) {
   if (!testimonials || testimonials.length === 0) {
-    return null; // Don't render the section if there are no testimonials
+    return (
+        <section id="testimonials" className="py-24 sm:py-32 bg-background/80">
+            <div className="container mx-auto px-4 md:px-6 text-center">
+                 <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl drop-shadow-glow-primary">
+                    What My Clients Are Saying
+                </h2>
+                <p className="mt-4 text-lg leading-8 text-foreground/70">
+                    Be the first to share your experience!
+                </p>
+                <div className="mt-12">
+                    <TestimonialDialog />
+                </div>
+            </div>
+        </section>
+    )
   }
 
   return (
@@ -329,8 +321,8 @@ export default function Testimonials() {
                  <div className="p-1 h-full">
                     <Card className="flex h-full flex-col transform-gpu border-border/70 bg-card/50">
                         <CardContent className="flex flex-grow flex-col justify-between p-6">
-                            <div className="flex-grow">
-                                <blockquote className="text-foreground/80 italic text-sm">"{testimonial.quote}"</blockquote>
+                            <div className="text-foreground/80 italic text-sm prose prose-invert max-w-none">
+                                {testimonial.quote ? documentToReactComponents(testimonial.quote) : ''}
                             </div>
                             <div className="mt-6">
                                 <div className="flex items-center gap-4">
@@ -363,7 +355,3 @@ export default function Testimonials() {
     </section>
   );
 }
-
-    
-
-    

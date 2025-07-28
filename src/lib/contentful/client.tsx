@@ -190,9 +190,10 @@ export async function getTestimonials(): Promise<Testimonial[]> {
         return entries.items.map((item: any) => ({
             name: item.fields.name as string || '',
             title: item.fields.title as string || '',
-            quote: item.fields.quote || '',
+            quote: item.fields.quote || null,
             avatarUrl: getAssetUrl(item.fields.avatar, 'https://placehold.co/100x100.png'),
             avatarHint: (item.fields.name as string || '').split(' ')[0].toLowerCase() + " portrait",
+            rating: item.fields.rating || 0,
         }));
     } catch (error) {
         return handleFetchError(error, 'testimonials');
