@@ -41,8 +41,8 @@ import type { Testimonial } from "@/content/testimonials";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 
-// IMPORTANT: Replace this with your new, dedicated Formspree endpoint for testimonials.
-const TESTIMONIAL_FORM_ENDPOINT = "https://formspree.io/f/YOUR_NEW_TESTIMONIAL_ENDPOINT"; 
+// IMPORTANT: This is the new, dedicated Formspree endpoint for testimonials.
+const TESTIMONIAL_FORM_ENDPOINT = "https://formspree.io/f/myzpjzbd";
 
 
 const renderStars = (rating: number) => {
@@ -244,8 +244,8 @@ const TestimonialDialog = () => {
                                 <FormLabel>Profile Picture (Optional)</FormLabel>
                                 <FormControl>
                                    <div className="relative">
-                                    <Input 
-                                      type="file" 
+                                    <Input
+                                      type="file"
                                       {...fileRef}
                                       className="pl-12"
                                       disabled={isLoading}
