@@ -41,9 +41,8 @@ import type { Testimonial } from "@/content/testimonials";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 
-// This is the same Formspree endpoint from your contact form.
-// You might want to create a separate one for testimonials later.
-const FORM_ENDPOINT = "https://formspree.io/f/mzzvravr"; 
+// IMPORTANT: Replace this with your new, dedicated Formspree endpoint for testimonials.
+const TESTIMONIAL_FORM_ENDPOINT = "https://formspree.io/f/YOUR_NEW_TESTIMONIAL_ENDPOINT"; 
 
 
 const renderStars = (rating: number) => {
@@ -103,7 +102,7 @@ const TestimonialDialog = () => {
         formData.append("_subject", `New Testimonial from ${values.name}`);
 
         try {
-            const response = await fetch(FORM_ENDPOINT, {
+            const response = await fetch(TESTIMONIAL_FORM_ENDPOINT, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -355,4 +354,3 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
     </section>
   );
 }
-
