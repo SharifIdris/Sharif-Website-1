@@ -22,31 +22,32 @@ function Logo() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 100"
-      className="h-8 w-8 text-primary"
+      className="h-10 w-10 text-primary"
     >
       <defs>
-        <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        <linearGradient id="grad-header" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style={{stopColor: 'hsl(var(--primary))'}} />
+          <stop offset="100%" style={{stopColor: 'hsl(var(--accent))'}} />
+        </linearGradient>
       </defs>
-      <g filter="url(#neon-glow)">
-        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="5" />
-        <text 
-          x="50" 
-          y="58" 
-          fontFamily="Space Grotesk, sans-serif" 
-          fontSize="38" 
-          fill="currentColor" 
-          textAnchor="middle" 
-          fontWeight="bold"
-        >
-          SD
-        </text>
-      </g>
+      <circle cx="50" cy="50" r="45" fill="none" stroke="url(#grad-header)" strokeWidth="5" />
+      <path d="M25 35 C20 40, 20 60, 25 65" stroke="url(#grad-header)" strokeWidth="4" fill="none" />
+      <circle cx="25" cy="35" r="3" fill="url(#grad-header)" />
+      <circle cx="25" cy="65" r="3" fill="url(#grad-header)" />
+      <path d="M75 35 C80 40, 80 60, 75 65" stroke="url(#grad-header)" strokeWidth="4" fill="none" />
+      <circle cx="75" cy="35" r="3" fill="url(#grad-header)" />
+      <circle cx="75" cy="65" r="3" fill="url(#grad-header)" />
+      <text 
+        x="50" 
+        y="60" 
+        fontFamily="Space Grotesk, sans-serif" 
+        fontSize="36" 
+        fill="url(#grad-header)"
+        textAnchor="middle" 
+        fontWeight="bold"
+      >
+        SDH
+      </text>
     </svg>
   );
 }
@@ -88,7 +89,7 @@ export default function Header() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Logo />
           <span className="font-headline text-xl font-bold text-primary drop-shadow-glow-primary">
