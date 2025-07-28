@@ -52,10 +52,10 @@ const handleFetchError = (error: any, contentType: string): [] => {
 const getIcon = (iconName: string | undefined): React.ReactNode => {
     const IconComponent = iconName ? iconMap[iconName] || iconMap['default'] : iconMap['default'];
     // Adjusting icon styling to match existing components
-    if (['Award', 'ShieldCheck', 'DatabaseZap'].includes(iconName || '')) {
-         return <IconComponent className="h-12 w-12 text-primary drop-shadow-glow-primary" />;
+    if (['Award'].includes(iconName || '')) {
+         return <IconComponent className="h-8 w-8 text-primary drop-shadow-glow-primary" />;
     }
-     if (['Briefcase', 'Bot', 'BarChart3', 'LayoutDashboard', 'Cpu', 'Heart', 'Code'].includes(iconName || '')) {
+     if (['Briefcase', 'Bot', 'BarChart3', 'LayoutDashboard', 'Cpu', 'Heart', 'Code', 'ShieldCheck', 'DatabaseZap'].includes(iconName || '')) {
          return <IconComponent className="h-8 w-8 text-accent" />;
     }
     // Default styling for service icons

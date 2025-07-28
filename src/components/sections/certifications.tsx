@@ -83,7 +83,10 @@ export default function Certifications({ certifications }: CertificationsProps) 
                             className="absolute inset-0 flex cursor-pointer flex-col rounded-lg bg-card/80 p-6 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-y-auto"
                             onClick={() => handleCardClick(index)}
                         >
-                            <h3 className="font-headline text-lg font-bold text-primary text-center mb-2">{cert.name}</h3>
+                            <div className="flex items-center justify-center gap-2 mb-2">
+                                {cert.icon}
+                                <h3 className="font-headline text-lg font-bold text-primary text-center">{cert.name}</h3>
+                            </div>
                             <ul className="space-y-2 text-left">
                                 {cert.description.split('\n').map((item, i) => (
                                 <li key={i} className="flex items-start">
