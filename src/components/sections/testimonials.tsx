@@ -14,7 +14,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star, MessageSquarePlus, Loader2, Send, Upload } from "lucide-react";
+import { Star, MessageSquarePlus, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -53,24 +53,11 @@ const renderStars = (rating: number) => {
     return stars;
 };
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
-
 const testimonialFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   title: z.string().min(2, "Title or Company must be at least 2 characters."),
   quote: z.string().min(10, "Testimonial must be at least 10 characters.").max(300, "Testimonial cannot exceed 300 characters."),
   rating: z.number().min(1, "Please select a rating.").max(5),
-  avatar: z
-    .any()
-    .refine((files) => files?.length <= 1, "Only one image is allowed.")
-    .refine((files) => !files || files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
-    .refine(
-      (files) => !files || files?.[0]?.type === "" || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      ".jpg, .jpeg, .png and .webp files are accepted."
-    )
-    .optional(),
 });
 
 
@@ -86,29 +73,20 @@ const TestimonialDialog = () => {
             title: "",
             quote: "",
             rating: 0,
-            avatar: undefined,
         },
     });
 
     async function onSubmit(values: z.infer<typeof testimonialFormSchema>) {
         setIsLoading(true);
-        const formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("title", values.title);
-        formData.append("quote", values.quote);
-        formData.append("rating", values.rating.toString());
-        if (values.avatar && values.avatar.length > 0) {
-            formData.append("avatar", values.avatar[0]);
-        }
-        formData.append("_subject", `New Testimonial from ${values.name}`);
 
         try {
             const response = await fetch(TESTIMONIAL_FORM_ENDPOINT, {
                 method: "POST",
-                body: formData,
                 headers: {
-                  'Accept': 'application/json'
-                }
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
             });
 
             if (response.ok) {
@@ -119,33 +97,23 @@ const TestimonialDialog = () => {
                 form.reset();
                 setIsOpen(false);
             } else {
-                 const errorData = await response.json().catch(() => null);
-                 if (errorData?.errors?.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
-                     toast({
-                        variant: "destructive",
-                        title: "File Upload Not Supported",
-                        description: "File uploads are not enabled on the current Formspree plan for this form.",
-                    });
-                 } else {
-                    toast({
-                        variant: "destructive",
-                        title: "Submission Error",
-                        description: "Failed to send your testimonial. Please try again later.",
-                    });
-                 }
+                toast({
+                    variant: "destructive",
+                    title: "Submission Error",
+                    description: "Failed to send your testimonial. Please try again later.",
+                });
             }
         } catch (error) {
             console.error("Error submitting testimonial:", error);
             toast({
                 variant: "destructive",
                 title: "Submission Error",
-                description: "Failed to send your testimonial. Please try again later.",
+                description: "There was a network problem. Please check your connection and try again.",
             });
         } finally {
             setIsLoading(false);
         }
     }
-     const fileRef = form.register("avatar");
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -239,30 +207,6 @@ const TestimonialDialog = () => {
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
-                         <FormField
-                          control={form.control}
-                          name="avatar"
-                          render={({ field }) => {
-                            return (
-                              <FormItem>
-                                <FormLabel>Profile Picture (Optional)</FormLabel>
-                                <FormControl>
-                                   <div className="relative">
-                                    <Input
-                                      type="file"
-                                      {...fileRef}
-                                      className="pl-12"
-                                      disabled={isLoading}
-                                      accept="image/png, image/jpeg, image/webp"
-                                    />
-                                    <Upload className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                   </div>
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            );
-                          }}
                         />
                         <DialogFooter>
                             <Button type="submit" disabled={isLoading} className="w-full">
