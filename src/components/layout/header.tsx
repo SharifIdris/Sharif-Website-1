@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -49,7 +50,6 @@ function Logo() {
     </svg>
   );
 }
-
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
