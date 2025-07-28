@@ -111,9 +111,16 @@ const TestimonialDialog = () => {
                 }
             });
 
-            if (!response.ok) {
-                 const errorData = await response.json();
-                 if (errorData.errors && errorData.errors.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
+            if (response.ok) {
+                 toast({
+                    title: "Testimonial Submitted!",
+                    description: `Thank you, ${values.name}. Your feedback is valuable to me.`,
+                });
+                form.reset();
+                setIsOpen(false);
+            } else {
+                 const errorData = await response.json().catch(() => null);
+                 if (errorData && errorData.errors && errorData.errors.some((e: any) => e.code === 'TYPE_FORM_FIELD_INVALID' && e.field === 'avatar')) {
                      toast({
                         variant: "destructive",
                         title: "File Upload Not Supported",
@@ -122,13 +129,6 @@ const TestimonialDialog = () => {
                  } else {
                     throw new Error("Form submission failed.");
                  }
-            } else {
-                toast({
-                    title: "Testimonial Submitted!",
-                    description: `Thank you, ${values.name}. Your feedback is valuable to me.`,
-                });
-                form.reset();
-                setIsOpen(false);
             }
         } catch (error) {
             console.error("Error submitting testimonial:", error);
@@ -355,3 +355,4 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
     </section>
   );
 }
+
