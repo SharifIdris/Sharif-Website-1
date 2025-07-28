@@ -22,7 +22,7 @@ export default function Skills({ skillCategories }: SkillsProps) {
             A snapshot of my capabilities across different domains, continuously growing.
           </p>
         </div>
-        <div className="mx-auto mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-none">
+        <div className="mx-auto mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:max-w-none">
           {skillCategories.map((category) => (
             <Card key={category.title} className="transform-gpu border-border/70 bg-card/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
               <CardHeader className="flex-row items-center gap-4">
