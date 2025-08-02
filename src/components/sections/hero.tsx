@@ -94,7 +94,7 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                 </LinkedInConnect>
-                <a href="/Sharif-Abubakar-CV.pdf" download>
+                <a href="/AngoleSharifAbubakar.pdf" download>
                   <Button size="lg" variant="outline" className="group">
                       Download CV <Download className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
                   </Button>
