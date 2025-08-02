@@ -44,7 +44,15 @@ My long-term vision is clear: to evolve into a Data Scientist enriched with cybe
 Currently, my work as a Virtual Assistant enables me to live out my passion every day by solving problems, staying organized, automating tasks, and supporting the businesses of tomorrow.
 
 Let’s connect if you’re hiring, collaborating, or passionate about technology, security, or AI-powered productivity.`;
-
+    
+    const handleDownload = () => {
+      const link = document.createElement("a");
+      link.href = "/AngoleSharifAbubakar.pdf";
+      link.download = "AngoleSharifAbubakar.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
 
   return (
     <section id="about" className="relative overflow-hidden bg-background py-24 sm:py-32">
@@ -94,11 +102,9 @@ Let’s connect if you’re hiring, collaborating, or passionate about technolog
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                 </LinkedInConnect>
-                <a href="/AngoleSharifAbubakar.pdf" download="AngoleSharifAbubakar.pdf">
-                  <Button size="lg" variant="outline" className="group">
+                  <Button size="lg" variant="outline" className="group" onClick={handleDownload}>
                       Download CV <Download className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
                   </Button>
-                </a>
               </div>
             </div>
             <div className="flex justify-center lg:justify-end [perspective:1000px]">
